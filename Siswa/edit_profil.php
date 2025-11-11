@@ -4,7 +4,6 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
-
 require_once '../conn.php';
 
 $username = $_SESSION['username'];
@@ -17,7 +16,7 @@ $user = $query->fetch();
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Siswa - PPDB Online</title>
+    <title>Edit Profil - PPDB Online</title>
     <link rel="stylesheet" href="../assets/css/siswa.css">
 </head>
 
@@ -33,25 +32,30 @@ $user = $query->fetch();
             <a href="edit_profil.php" class="btn">Edit Profil</a>
         </nav>
         <div class="user">
-            <a href="profil.php" class="nama-user">
-                <?= htmlspecialchars($_SESSION['nama']) ?>
-            </a>
+            <a href="profil.php" class="nama-user"><?= ($_SESSION['nama']); ?></a>
             <a href="logout.php" class="logout">Logout</a>
         </div>
     </header>
+    <div class="container-form">
+        <h2>Edit Profil</h2>
+        <form action="update_profil.php" method="POST" enctype="multipart/form-data">
+            <label>Nama Lengkap</label>
+            <input type="text" name="nama" value="<?= ($user['NAMA']); ?>">
 
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Selamat Datang<br>Di PPDB Online</h1>
-            <p class="sub">Pesantren</p>
-            <p>Akses dan cari tahu prosedur serta ketentuan informasi pendaftaran Pesantren.</p>
-            <a href="pendaftaran.php" class="btn">Mendaftar</a>
-        </div>
-        <div class="hero-img">
-            <img src="../assets/image/bg.jpg" alt="Gedung Pesantren">
-        </div>
+            <label>Password (kosongkan jika tidak diubah)</label>
+            <input type="password" name="password" placeholder="Password baru">
 
-    </section>
+            <label>Foto Profil</label>
+            <input type="file" name="foto" accept=".jpg,.jpeg,.png">
+
+            <?php if ($user['FOTO_SISWA']): ?>
+                <p>Foto saat ini:</p>
+                <img src="../assets/uploads/<?= ($user['FOTO_SISWA']); ?>" width="100">
+            <?php endif; ?>
+
+            <button type="submit" name="update">Simpan Perubahan</button>
+        </form>
+    </div>
 </body>
 
 </html>

@@ -1,48 +1,67 @@
 <?php
-session_start();
+
 
 require_once 'conn.php';
 require_once 'base.php';
 
+
 // User Login
-function login(array $data){
-    $username = $_POST['nisn'];
-    $passwd = $_POST['password'];
-    $user = DBC->prepare("SELECT * FROM users WHERE USERNAME = :username AND PASSWORD = :pass");
+function login()
+{
+    $username = $_POST['username'];
+    $passwd   = $_POST['password'];
+
+    $user = DBC->prepare("SELECT * FROM USERS WHERE USERNAME = :username AND PASSWORD = :pass");
     $user->execute([
-        ':username'=>$username,
-        ':pass' => md5($passwd)
+        ':username' => $username,
+        ':pass'     => $passwd
     ]);
-    if($user->rowCount() == 1){
-        $data_admin = $user->fetch();
-        if($data_admin['ROLE'] == 1)
-        // $_SESSION['admin_login'] = $data_admin['ID_ADMIN'];
-        // $_SESSION['nama'] = $data_admin['NAMA_ADMIN'];
-        header("Location:Admin/index.php");
-    }else{
-        header("Location:login.php");
+
+    if ($user->rowCount() == 1) {
+        $data = $user->fetch();
+
+        session_start();
+        $_SESSION['username'] = $data['USERNAME'];
+        $_SESSION['nama']     = $data['NAMA'];
+        $_SESSION['role']     = $data['ROLE'];
+
+        if ($data['ROLE'] == '1') {
+            header("Location: Admin/index.php");
+        } else {
+            header("Location: Siswa/index.php");
+        }
+        exit;
+    } else {
+        echo "<script>alert('Username atau password salah!'); window.location='login.php';</script>";
     }
 }
-
 
 // Register
-function register($array){
-    $cek = cekNISN($array['nisn']);
-    if($cek == 0){
-        $register = DBC->prepare("INSERT INTO siswa (NISN, NAMA_SISWA, PASSWORD_SISWA) VALUES (:nisn, :nama, :pass)");
+function register($array)
+{
+    // Cek apakah username sudah terdaftar
+    $cek = cekUsername($array['username']);
+    if ($cek == 0) {
+        $register = DBC->prepare("
+            INSERT INTO USERS (USERNAME, PASSWORD, NAMA, FOTO_SISWA, ROLE)
+            VALUES (:username, :pass, :nama, NULL, '0')
+        ");
         $register->execute([
-            ':nisn' => $array['nisn'],
-            ':nama' => $array['nama'],
-            ':pass' => md5($array['password'])
+            ':username' => $array['username'],
+            ':pass'     => $array['password'],
+            ':nama'     => $array['nama']
         ]);
-    }else{
-        echo "Nisn Sudah Terdaftar";
+
+        echo "<script>alert('Registrasi berhasil! Silakan login.'); window.location='login.php';</script>";
+    } else {
+        echo "<script>alert('Username sudah terdaftar!'); window.location='register.php';</script>";
     }
 }
 
-// Cek Ketersediaan NISN
-function cekNISN($nisn){
-    $cek = DBC->prepare("SELECT NISN FROM siswa WHERE NISN = :nisn");
-    $cek->execute([':nisn'=>$nisn]);
+// Cek Ketersediaan USERNAME
+function cekUsername($username)
+{
+    $cek = DBC->prepare("SELECT USERNAME FROM USERS WHERE USERNAME = :user");
+    $cek->execute([':user' => $username]);
     return $cek->rowCount();
 }
