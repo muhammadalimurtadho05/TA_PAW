@@ -2,9 +2,9 @@
 $siswa = getSiswaKamar();
 ?>
 
-<div class="page"><a href="">Admin</a> / <a href="">Jurusan </a>/ <a href="">Siswa</a></div>
+<div class="page"><a href="index.php">Admin</a> / <a href="index.php?page=kamar">Kamar </a>/ <a href="">Siswa</a></div>
 <?php if(!$siswa):?>
-    <h1>Tidak Ada Siswa Pada Jurusan Ini</h1>
+    <h1>Tidak Ada Siswa Pada Kamar Ini</h1>
     <?php else:?>
         <h1>Daftar Siswa Jurusan </h1>
     <table>
@@ -13,7 +13,6 @@ $siswa = getSiswaKamar();
                 <th>No</th>
                 <th>NISN</th>
                 <th>Nama</th>
-                <th>Kamar</th>
                 <th>Alamat</th>
                 <th>Telp</th>
             </tr>
@@ -24,7 +23,6 @@ $siswa = getSiswaKamar();
                     <td><?= $no++ ?></td>
                     <td><?= $sw['NISN'] ?></td>
                     <td><?= $sw['NAMA'] ?></td>
-                    <td><?= $sw['KAMAR'] ?></td>
                     <td><?= $sw['ALAMAT'] ?></td>
                     <td><?= $sw['TELP'] ?></td>
                 </tr>

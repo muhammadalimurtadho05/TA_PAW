@@ -294,3 +294,16 @@ a.prof{
     position: absolute;
     right: 20px;
 }
+.profile-photo{
+    width: 35px;
+    margin: 0;
+    border: 2.5px solid #41A67E;
+    border-radius: 50%;
+}
+.top-kanan{
+    display: flex;
+    align-items: center;
+}
+.icon{
+    width: 100px;
+}

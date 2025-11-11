@@ -39,6 +39,8 @@ if(isset($_GET['page'])){
     else{
         require_once 'page/not-found.php';
     }
+}else{
+    include 'page/dashboard.php';
 }
 ?>
 <?php
