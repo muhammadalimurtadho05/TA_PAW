@@ -22,6 +22,9 @@ function login()
         $_SESSION['nama']     = $data['NAMA'];
         $_SESSION['role']     = $data['ROLE'];
 
+        $_SESSION['role']     = $data['ROLE'];
+
+
 
         $_SESSION['pesan'] = [
             'tipe' => 'sukses',
