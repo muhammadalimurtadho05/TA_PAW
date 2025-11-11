@@ -1,5 +1,46 @@
 <?php
 session_start();
+
+
+if (isset($_SESSION['pesan'])) {
+    $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
+    $teks = $_SESSION['pesan']['teks'] ?? '';
+
+
+    $warnaBg  = ($tipe === 'sukses') ? '#d4edda' : (($tipe === 'error') ? '#f8d7da' : '#cce5ff');
+    $warnaTxt = ($tipe === 'sukses') ? '#155724' : (($tipe === 'error') ? '#721c24' : '#004085');
+
+
+    echo "
+    <style>
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+        .alert-fade {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: {$warnaBg};
+            color: {$warnaTxt};
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            font-weight: 500;
+            text-align: center;
+            width: fit-content;
+            max-width: 90%;
+            animation: fadeOut 3s ease forwards;
+        }
+    </style>
+
+    <div class='alert-fade'>{$teks}</div>
+    ";
+    unset($_SESSION['pesan']);
+}
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
@@ -34,7 +75,7 @@ $user = $query->fetch();
         </nav>
         <div class="user">
             <a href="profil.php" class="nama-user">
-                <?= htmlspecialchars($_SESSION['nama']) ?>
+                <?= ($_SESSION['nama']) ?>
             </a>
             <a href="logout.php" class="logout">Logout</a>
         </div>
