@@ -1,13 +1,12 @@
 <?php
-
-
 require_once 'conn.php';
 require_once 'base.php';
-
 
 // User Login
 function login()
 {
+    session_start();
+
     $username = $_POST['username'];
     $passwd   = $_POST['password'];
 
@@ -20,11 +19,16 @@ function login()
     if ($user->rowCount() == 1) {
         $data = $user->fetch();
 
-        session_start();
         $_SESSION['username'] = $data['USERNAME'];
         $_SESSION['nama']     = $data['NAMA'];
         $_SESSION['role']     = $data['ROLE'];
         $_SESSION['role']     = $data['ROLE'];
+
+
+        $_SESSION['pesan'] = [
+            'tipe' => 'sukses',
+            'teks' => '✅ Selamat datang, ' . $data['NAMA'] . '!'
+        ];
 
         if ($data['ROLE'] == '1') {
             header("Location: Admin/index.php");
@@ -33,13 +37,21 @@ function login()
         }
         exit;
     } else {
-        echo "<script>alert('Username atau password salah!'); window.location='index.php';</script>";
+        // ❌ Pesan error
+        $_SESSION['pesan'] = [
+            'tipe' => 'error',
+            'teks' => '❌ Username atau password salah!'
+        ];
+        header("Location: login.php");
+        exit;
     }
 }
 
-// Register
+
 function register($array)
 {
+    session_start();
+
     // Cek apakah username sudah terdaftar
     $cek = cekUsername($array['username']);
     if ($cek == 0) {
@@ -53,11 +65,24 @@ function register($array)
             ':nama'     => $array['nama']
         ]);
 
-        echo "<script>alert('Registrasi berhasil! Silakan login.'); window.location='index.php';</script>";
+
+        $_SESSION['pesan'] = [
+            'tipe' => 'sukses',
+            'teks' => '✅ Registrasi berhasil! Silakan login.'
+        ];
+        header("Location: login.php");
+        exit;
     } else {
-        echo "<script>alert('Username sudah terdaftar!'); window.location='register.php';</script>";
+
+        $_SESSION['pesan'] = [
+            'tipe' => 'error',
+            'teks' => '⚠️ Username sudah terdaftar!'
+        ];
+        header("Location: register.php");
+        exit;
     }
 }
+
 
 // Cek Ketersediaan USERNAME
 function cekUsername($username)
