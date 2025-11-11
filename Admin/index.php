@@ -30,6 +30,9 @@ if(isset($_GET['page'])){
     }else if($page == 'profil'){
         require_once 'page/profile.php';
     }
+    else if($page == 'logout'){
+        logout();
+    }
     
     
     

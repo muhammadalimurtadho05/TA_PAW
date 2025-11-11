@@ -16,7 +16,7 @@
     </div>
     <div class="top-kanan">
         <a href="index.php?page=profil" class="prof"><?= $_SESSION['nama']?></a>
-        <a href="#" class="logout">Logout</a>
+        <a href="index.php?page=logout" class="logout">Logout</a>
     </div>
 </header>
 <main class="content">

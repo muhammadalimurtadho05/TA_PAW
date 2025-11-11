@@ -9,7 +9,7 @@ function getAllUsers(){
 
 function getAllPendaftar(){
     $pendaftar = DBC->prepare("
-    SELECT pendaftaran.NISN,jurusan.NAMA_JURUSAN, jurusan.DETAIL_JURUSAN, users.NAMA,users.USERNAME 
+    SELECT pendaftaran.NISN,pendaftaran.STATUS_DAFTAR,jurusan.NAMA_JURUSAN, jurusan.DETAIL_JURUSAN, users.NAMA,users.USERNAME 
     FROM pendaftaran JOIN jurusan ON pendaftaran.ID_JURUSAN = jurusan.ID_JURUSAN
     JOIN users ON pendaftaran.USERNAME = users.USERNAME ");
     $pendaftar->execute();
@@ -164,4 +164,12 @@ function updateProfileAdmin($array){
     }
     header("Location:index.php?page=profil");
     exit;
+}
+
+// Logout
+function logout(){
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
 }

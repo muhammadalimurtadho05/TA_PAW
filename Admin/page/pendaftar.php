@@ -8,6 +8,7 @@ $pendaftar = getAllPendaftar();
             <th>No</th>
             <th>NISN</th>
             <th>Nama</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -19,6 +20,17 @@ $pendaftar = getAllPendaftar();
             <td><?= $no++?>.</td>
             <td><?= $user['NISN'] ?></td>
             <td><?= $user['NAMA'] ?></td>
+            <td>
+                <?php if($user['STATUS_DAFTAR'] == 0){?>
+                <span>Pending</span>
+            <?php }else if($user['STATUS_DAFTAR'] == 1){?>
+                <span>Diterima</span>
+            <?php
+            }else{
+            ?>
+            <span>Ditolak</span>
+            <?php }?>
+            </td>
             <td>
                 <a href="index.php?page=detail&user=<?= $user['USERNAME'] ?>" class="acc">Info</a>
             </td>
