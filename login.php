@@ -1,9 +1,5 @@
 <?php
 session_start();
-require_once 'conn.php';
-require_once 'database.php';
-
-
 
 if (isset($_SESSION['pesan'])) {
     $tipe = $_SESSION['pesan']['tipe'];
@@ -32,15 +28,9 @@ if (isset($_SESSION['pesan'])) {
           </div>";
     unset($_SESSION['pesan']);
 }
-
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = [
-        'username' => $_POST['username'],
-        'nama'     => $_POST['nama'],
-        'password' => $_POST['password']
-    ];
-    register($data);
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    require_once 'database.php';
+    login($_POST);
 }
 ?>
 <!DOCTYPE html>
@@ -48,28 +38,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <meta charset="UTF-8">
-    <title>Registrasi Siswa</title>
+    <title>Login Siswa</title>
     <link rel="stylesheet" href="assets/css/style.css">
-
 </head>
 
 <body>
     <div class="container">
         <div class="form-box">
-            <h2>Registrasi Siswa</h2>
-            <p>Sudah punya akun? <a href="login.php">Login</a></p>
+            <h2>Login Siswa</h2>
+            <p>Belum punya akun? <a href="register.php">Register</a></p>
 
             <form method="POST" action="" autocomplete="off">
-                <label>Nama Lengkap</label>
-                <input type="text" name="nama" placeholder="Nama Lengkap" required>
-
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Isi dengan NISN anda" required>
+                <input type="text" name="username" placeholder="isi dengan NISN anda">
 
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password">
 
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
             </form>
         </div>
 
