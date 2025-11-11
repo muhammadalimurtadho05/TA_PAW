@@ -14,7 +14,11 @@ body {
     width: 800px;
     background: #fff;
     border-radius: 10px;
+<<<<<<< HEAD
+    overflow: auto;
+=======
     overflow: hidden;
+>>>>>>> 9fd9ece5f364cb5d98ab87b982eb95b47d7954e7
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
 }
 

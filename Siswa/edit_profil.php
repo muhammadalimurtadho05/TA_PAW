@@ -28,7 +28,11 @@ $user = $query->fetch();
         <nav class="menu">
             <a href="index.php">Home</a>
             <a href="#">riwayat Pendaftaran</a>
+<<<<<<< HEAD
+            <a href="pendaftaran.php">Pendaftaran</a>
+=======
             <a href="#">Pendaftaran</a>
+>>>>>>> 9fd9ece5f364cb5d98ab87b982eb95b47d7954e7
             <a href="edit_profil.php" class="btn">Edit Profil</a>
         </nav>
         <div class="user">
