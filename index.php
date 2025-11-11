@@ -5,11 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     login($_POST);
 }
 ?>
-<<<<<<< HEAD
-<!DOCTYPE html> 
-=======
 <!DOCTYPE html>
->>>>>>> 9fd9ece5f364cb5d98ab87b982eb95b47d7954e7
+
 <html lang="id">
 
 <head>
