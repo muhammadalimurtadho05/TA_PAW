@@ -50,11 +50,14 @@ body {
 }
 
 .info {
+    text-align: left;
+        margin-top: 1.5rem;
     line-height: 1.8;
     margin-bottom: 15px;
 }
 
 .info span {
+    text-align: right;
     font-weight: 600;
     color: #00796b;
 }
@@ -71,6 +74,14 @@ body {
 .berkas-list {
     list-style: none;
     padding: 0;
+}
+
+
+
+.berkas-list p {
+    background-color: #C2E2FA;
+        color: #4E61D3;
+        font-weight: bold;
 }
 
 .berkas-list li {
@@ -174,4 +185,59 @@ body {
     object-fit: cover;
     border: 3px solid #d0f0e8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* === GAYA TABEL INFORMASI SISWA === */
+.data-grid {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid #e0f2f1;
+}
+
+.data-grid div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    border-bottom: 1px dashed #b2dfdb;
+}
+
+.data-grid .label {
+    font-weight: 600;
+    color: #004d40;
+    flex: 1;
+    text-align: left;
+}
+
+.data-grid .label {
+    font-weight: 600;
+    color: black;
+    flex: 1;
+    text-align: left;
+}
+
+.data-grid .value {
+    flex: 1;
+    text-align: right;
+    color: black;
+}
+
+.lihat-btn {
+    background: #e0f7fa;
+    color: #00796b;
+    padding: 4px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.lihat-btn:hover {
+    background: #00796b;
+    color: white;
 }

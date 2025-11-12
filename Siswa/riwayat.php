@@ -39,7 +39,7 @@ $user = getUserByUsername($username);
             <a href="riwayat.php" class="active">Riwayat Pendaftaran</a>
             <a href="pendaftaran.php">Pendaftaran</a>
             <a href="edit_profil.php" class="btn">Edit Profil</a>
-            <a href="../logout.php" class="logout">Logout</a>
+            <a href="logout.php" class="logout">Logout</a>
         </nav>
         <div class="user">
             <a href="profil.php">
@@ -80,15 +80,18 @@ $user = getUserByUsername($username);
                         ?>
 
                         <div class="status-info">
-                            <p><strong>Nama:</strong> <?= htmlspecialchars($data['NAMA']); ?></p>
+                            <p><strong>Nama:</strong> <?= ($data['NAMA']); ?></p>
                             <?php if ($data['STATUS_DAFTAR'] == '1'): ?>
-                                <p><strong>Jurusan:</strong> <?= htmlspecialchars($data['NAMA_JURUSAN']); ?></p>
-                                <p><strong>Kamar:</strong> <?= htmlspecialchars($data['KAMAR']); ?></p>
+                                <p><strong>Jurusan:</strong> <?= ($data['NAMA_JURUSAN']); ?></p>
+                                <p><strong>Kamar:</strong> <?= ($data['KAMAR']); ?></p>
+                            <?php elseif ($data['STATUS_DAFTAR'] == '0'): ?>
+                                <p><strong>Jurusan:</strong> <?= ($data['NAMA_JURUSAN']); ?></p>
+                                <p><strong>Kamar:</strong> -</p>
                             <?php else: ?>
                                 <p><strong>Jurusan:</strong> -</p>
                                 <p><strong>Kamar:</strong> -</p>
                             <?php endif; ?>
-                            <p><strong>Tanggal Daftar:</strong> <?= htmlspecialchars($data['CREATED_AT']); ?></p>
+                            <p><strong>Tanggal Daftar:</strong> <?= ($data['CREATED_AT']); ?></p>
                         </div>
                     </div>
 
@@ -96,40 +99,35 @@ $user = getUserByUsername($username);
                     <div class="tab-content" id="content2">
                         <div class="foto-siswa">
                             <?php if (!empty($data['FOTO_SISWA'])): ?>
-                                <img src="../assets/uploads/<?= htmlspecialchars($data['FOTO_SISWA']); ?>" alt="Foto Profil">
+                                <img src="../assets/uploads/<?= ($data['FOTO_SISWA']); ?>" alt="Foto Profil">
                             <?php else: ?>
                                 <img src="../assets/default.jpg" alt="Foto Default">
                             <?php endif; ?>
                         </div>
 
-                        <h3>📋 Data Pendaftaran</h3>
-                        <div class="info">
-                            <p><span>Nama Lengkap:</span> <?= htmlspecialchars($data['NAMA']); ?></p>
-                            <p><span>Username:</span> <?= htmlspecialchars($data['USERNAME']); ?></p>
-                            <p><span>NISN:</span> <?= htmlspecialchars($data['NISN']); ?></p>
-                            <p><span>Alamat:</span> <?= htmlspecialchars($data['ALAMAT']); ?></p>
-                            <p><span>Jenis Kelamin:</span> <?= ($data['JENIS_KELAMIN'] == 'L' ? 'Laki-laki' : 'Perempuan'); ?></p>
-                            <p><span>Asal Sekolah:</span> <?= htmlspecialchars($data['ASAL_SEKOLAH']); ?></p>
-                            <p><span>Tempat, Tanggal Lahir:</span> <?= htmlspecialchars($data['TEMPAT_LAHIR']); ?>, <?= htmlspecialchars($data['TANGGAL_LAHIR']); ?></p>
-                            <p><span>Nama Ayah:</span> <?= htmlspecialchars($data['NAMA_AYAH']); ?></p>
-                            <p><span>Nama Ibu:</span> <?= htmlspecialchars($data['NAMA_IBU']); ?></p>
-                            <p><span>No. HP Siswa:</span> <?= htmlspecialchars($data['TELP']); ?></p>
-                            <p><span>No. HP Ortu:</span> <?= htmlspecialchars($data['TELP_ORTU']); ?></p>
-                            <p><span>Jurusan:</span> <?= htmlspecialchars($data['NAMA_JURUSAN']); ?></p>
+                        <div class="data-grid">
+                            <div><span class="label">Nama Lengkap</span><strong class="value"><?= ($data['NAMA']); ?></strong></div>
+                            <div><span class="label">Username</span><span class="value"><?= ($data['USERNAME']); ?></span></div>
+                            <div><span class="label">NISN</span><span class="value"><?= ($data['NISN']); ?></span></div>
+                            <div><span class="label">Jurusan</span><span class="value"><?= ($data['NAMA_JURUSAN']); ?></span></div>
+                            <div><span class="label">Tempat, Tanggal Lahir</span><span class="value"><?= ($data['TEMPAT_LAHIR']); ?>, <?= ($data['TANGGAL_LAHIR']); ?></span></div>
+                            <div><span class="label">Kamar</span><span class="value"><?= ($data['KAMAR']); ?></span></div>
+                            <div><span class="label">Alamat</span><span class="value"><?= ($data['ALAMAT']); ?></span></div>
+                            <div><span class="label">Nama Ayah</span><span class="value"><?= ($data['NAMA_AYAH']); ?></span></div>
+                            <div><span class="label">Nama Ibu</span><span class="value"><?= ($data['NAMA_IBU']); ?></span></div>
+                            <div><span class="label">Jenis Kelamin</span><span class="value"><?= ($data['JENIS_KELAMIN'] == 'L' ? 'Laki-laki' : 'Perempuan'); ?></span></div>
+                            <div><span class="label">Asal Sekolah</span><span class="value"><?= ($data['ASAL_SEKOLAH']); ?></span></div>
+                            <h3>📋 Data Pendaftaran</h3>
+                            <?php if ($berkas): ?>
+                                <?php foreach ($berkas as $b): ?>
+                                    <div>
+                                        <span class="label"><?= ($b['NAMA_BERKAS']); ?></span>
+                                        <span class="value"><a href="../assets/uploads/<?= ($b['BERKAS']); ?>" target="_blank" class="lihat-btn">Lihat</a></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
 
-                        <h3>📎 Berkas yang Telah Diupload</h3>
-                        <?php if ($berkas): ?>
-                            <ul class="berkas-list">
-                                <?php foreach ($berkas as $b): ?>
-                                    <li><?= htmlspecialchars($b['NAMA_BERKAS']); ?>:
-                                        <a href="../assets/uploads/<?= htmlspecialchars($b['BERKAS']); ?>" target="_blank">Lihat</a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <p style="color:#888;">Belum ada berkas yang diupload.</p>
-                        <?php endif; ?>
                     </div>
                 </div>
             <?php endif; ?>
