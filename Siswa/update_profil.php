@@ -58,9 +58,13 @@ $_SESSION['pesan'] = [
     'teks' => '✅ Profil berhasil diperbarui!'
 ];
 
+
 header("Location: index.php");
 
 exit;
 
 exit;
+
+
+header("Location: index.php");
 

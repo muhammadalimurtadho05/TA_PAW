@@ -1,7 +1,14 @@
 <?php
 session_start();
-require_once 'Components/database.php';
-require_once 'Components/header.php';
+require_once '../conn.php';
+if(!isset($_SESSION['role'])){
+    header('Location:'.BASE_URL);
+}elseif(isset($_SESSION['role']) && $_SESSION['role'] == 0){
+    header('Location:'.BASE_URL.'Siswa');
+}
+define('APP_SECURE', true);
+require_once BASE_PATH.'/Admin/Components/database.php';
+require_once BASE_PATH.'/Admin/Components/header.php';
 ?>
 
 <!-- <h1>Daftar Akun Terdaftar</h1> -->
@@ -28,12 +35,17 @@ if(isset($_GET['page'])){
     }else if($page == 'profil'){
         require_once 'page/profile.php';
     }
+    else if($page == 'logout'){
+        logout();
+    }
     
     
     
     else{
-        require_once 'page/not-found.php';
+        require_once 'page/404.php';
     }
+}else{
+    include 'page/dashboard.php';
 }
 ?>
 <?php

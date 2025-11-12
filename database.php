@@ -1,6 +1,5 @@
 <?php
 require_once 'conn.php';
-require_once 'base.php';
 
 // User Login
 function login()

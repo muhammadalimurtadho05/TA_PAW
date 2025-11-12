@@ -1,44 +1,12 @@
 <?php
 session_start();
-
+require_once 'database.php';
 
 if (isset($_SESSION['pesan'])) {
     $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
     $teks = $_SESSION['pesan']['teks'] ?? '';
 
-
-    $warnaBg  = ($tipe === 'sukses') ? '#d4edda' : (($tipe === 'error') ? '#f8d7da' : '#cce5ff');
-    $warnaTxt = ($tipe === 'sukses') ? '#155724' : (($tipe === 'error') ? '#721c24' : '#004085');
-
-
-    echo "
-    <style>
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { opacity: 0; display: none; }
-        }
-        .alert-fade {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: {$warnaBg};
-            color: {$warnaTxt};
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-weight: 500;
-            text-align: center;
-            width: fit-content;
-            max-width: 90%;
-            animation: fadeOut 3s ease forwards;
-        }
-    </style>
-
-    <div class='alert-fade'>{$teks}</div>
-    ";
+    echo "<div class='alert-message {$tipe}'>{$teks}</div>";
     unset($_SESSION['pesan']);
 }
 if (!isset($_SESSION['username'])) {
@@ -49,9 +17,7 @@ if (!isset($_SESSION['username'])) {
 require_once '../conn.php';
 
 $username = $_SESSION['username'];
-$query = DBC->prepare("SELECT * FROM USERS WHERE USERNAME = :username");
-$query->execute([':username' => $username]);
-$user = $query->fetch();
+$user = getUserByUsername($username);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -60,6 +26,7 @@ $user = $query->fetch();
     <meta charset="UTF-8">
     <title>Dashboard Siswa - PPDB Online</title>
     <link rel="stylesheet" href="../assets/css/siswa.css">
+
 </head>
 
 <body>
@@ -68,16 +35,22 @@ $user = $query->fetch();
             <span><strong>PPDB</strong> Online <strong>Pesantren</strong></span>
         </div>
         <nav class="menu">
+
             <a href="index.php">Home</a>
-            <a href="#">riwayat Pendaftaran</a>
+            <a href="index.php" class="active">Home</a>
+            <a href="riwayat.php">Riwayat Pendaftaran</a>
             <a href="pendaftaran.php">Pendaftaran</a>
             <a href="edit_profil.php" class="btn">Edit Profil</a>
+            <a href="logout.php" class="logout">Logout</a>
         </nav>
         <div class="user">
-            <a href="profil.php" class="nama-user">
-                <?= ($_SESSION['nama']) ?>
+            <a href="profil.php">
+                <?php if (!empty($user['FOTO_SISWA'])): ?>
+                    <img src="../assets/uploads/<?= htmlspecialchars($user['FOTO_SISWA']); ?>" alt="Foto Profil">
+                <?php else: ?>
+                    <img src="../assets/default.jpg" alt="Foto Default">
+                <?php endif; ?>
             </a>
-            <a href="logout.php" class="logout">Logout</a>
         </div>
     </header>
 
@@ -91,7 +64,6 @@ $user = $query->fetch();
         <div class="hero-img">
             <img src="../assets/image/bg.jpg" alt="Gedung Pesantren">
         </div>
-
     </section>
 </body>
 

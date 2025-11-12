@@ -1,8 +1,10 @@
 <?php
+require_once 'base.php';
 define("HOST","localhost");
 define("USER","root");
 define("PASS","");
 define("DB_NAME","ta_paw");
+
 
 const OPTIONS = [
   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

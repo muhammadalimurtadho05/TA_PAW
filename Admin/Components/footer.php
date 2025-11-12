@@ -1,6 +1,6 @@
     </main>
     <footer>
-        <p>&copy; 2023 Dashboard Admin. Hak cipta dilindungi.</p>
+        <p>PAW2025-1-D03</p>
     </footer>
 </body>
 </html>

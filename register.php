@@ -12,24 +12,7 @@ if (isset($_SESSION['pesan'])) {
     $warnaBg  = ($tipe === 'sukses') ? '#d4edda' : '#f8d7da';
     $warnaTxt = ($tipe === 'sukses') ? '#155724' : '#721c24';
 
-    echo "<div style='
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: {$warnaBg};
-            color: {$warnaTxt};
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-weight: 500;
-            text-align: center;
-            width: fit-content;
-            max-width: 90%;
-          '>
-            {$teks}
-          </div>";
+    echo "<div class='alert-message {$tipe}'>{$teks}</div>";
     unset($_SESSION['pesan']);
 }
 

@@ -1,17 +1,32 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $user = getDetailUser();
 // var_dump($user);
 if(isset($_GET['terima'])){
     terimaSiswa();
-    header("Location:index.php?page=detail&user=".$_GET['user']);
 }elseif(isset($_GET['tolak'])){
     tolakSiswa();
     header("Location:index.php?page=detail&user=".$_GET['user']);
+}elseif(isset($_GET['pending'])){
+    pendingSiswa();
+    header("Location:index.php?page=detail&user=".$_GET['user']);
 }
 ?>
-<h1></h1>    
+<div class="alert-msg-prof">
+    <?php if(isset($_SESSION['msg_err'])):?>
+        <div class="danger-alert"><?=$_SESSION['msg_err']?></div>
+        <?php
+        unset($_SESSION['msg_err'])
+        ?>
+    <?php endif?>
+</div>
 <div class="profile-card">
-    <div class="avatar">A</div>
+    <div class="avatar">
+        <img src="<?=BASE_URL.'/assets/uploads/'.$user['FOTO_SISWA'] ?>" alt="">
+    </div>
     <h2><?= $user['NAMA'] ?></h2>
     <p style="color: rgb(93, 199, 187);"><?= $user['USERNAME'] ?></p>
 
@@ -90,5 +105,17 @@ if(isset($_GET['terima'])){
             <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&tolak">Tolak!</a>
             <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&terima">Terima!</a>
         </div>
+    <?php endif?>
+    <?php if($user['STATUS_DAFTAR'] == 1):?>
+        <div class="tombol-bawah">
+            <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&tolak">Tolak!</a>
+            <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&pending">Pending!</a>
+        </div>
+    <?php endif?>
+    <?php if($user['STATUS_DAFTAR'] == 2):?>
+        <div class="tombol-bawah">
+                <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&pending">Pending!</a>
+                <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&terima">Terima!</a>
+            </div>
     <?php endif?>
 </div>

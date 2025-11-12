@@ -1,5 +1,5 @@
 <?php
-require_once '../conn.php';
+require_once BASE_PATH.'/Admin/Components/validate.inc';
 
 function getAllUsers(){
     $users = DBC->prepare("SELECT * FROM users WHERE ROLE = 0");
@@ -9,7 +9,7 @@ function getAllUsers(){
 
 function getAllPendaftar(){
     $pendaftar = DBC->prepare("
-    SELECT pendaftaran.NISN,jurusan.NAMA_JURUSAN, jurusan.DETAIL_JURUSAN, users.NAMA,users.USERNAME 
+    SELECT pendaftaran.NISN,pendaftaran.STATUS_DAFTAR,jurusan.NAMA_JURUSAN, jurusan.DETAIL_JURUSAN, users.NAMA,users.USERNAME 
     FROM pendaftaran JOIN jurusan ON pendaftaran.ID_JURUSAN = jurusan.ID_JURUSAN
     JOIN users ON pendaftaran.USERNAME = users.USERNAME ");
     $pendaftar->execute();
@@ -17,7 +17,7 @@ function getAllPendaftar(){
 }
 
 function getDetailUser(){
-    $user = DBC->prepare("SELECT pendaftaran.*, users.NAMA, jurusan.*,kamar.KAMAR FROM pendaftaran JOIN users ON pendaftaran.USERNAME = users.USERNAME JOIN jurusan ON jurusan.ID_JURUSAN = pendaftaran.ID_JURUSAN JOIN kamar ON pendaftaran.ID_KAMAR = kamar.ID_KAMAR WHERE pendaftaran.USERNAME = :username");
+    $user = DBC->prepare("SELECT pendaftaran.*, users.NAMA,users.FOTO_SISWA, jurusan.*,kamar.KAMAR FROM pendaftaran JOIN users ON pendaftaran.USERNAME = users.USERNAME JOIN jurusan ON jurusan.ID_JURUSAN = pendaftaran.ID_JURUSAN JOIN kamar ON pendaftaran.ID_KAMAR = kamar.ID_KAMAR WHERE pendaftaran.USERNAME = :username");
     $user->execute([':username' => $_GET['user']]);
     return $user->fetch();
 }
@@ -54,13 +54,21 @@ function terimaSiswa(){
             ':user'=>$_GET['user']
         ]);
     }else{
-        echo "Kamar penuh";
+        $_SESSION['msg_err'] = 'Semua Kamar Telah Penuh!';
     }
+    header("Location:index.php?page=detail&user=".$_GET['user']);
+    exit;
 }
 
 // Siswa Ditolak
 function tolakSiswa(){
-    $tolak = DBC->prepare("UPDATE pendaftaran SET STATUS_DAFTAR = 2 WHERE USERNAME = :user");
+    $tolak = DBC->prepare("UPDATE pendaftaran SET STATUS_DAFTAR = 2,ID_KAMAR = 1 WHERE USERNAME = :user");
+    $tolak->execute([
+        ':user'=>$_GET['user']
+    ]);
+}
+function pendingSiswa(){
+    $tolak = DBC->prepare("UPDATE pendaftaran SET STATUS_DAFTAR = 0 WHERE USERNAME = :user");
     $tolak->execute([
         ':user'=>$_GET['user']
     ]);
@@ -68,7 +76,7 @@ function tolakSiswa(){
 
 // Daftar Kamar
 function getAllKamar(){
-    $kamar = DBC->prepare("SELECT kamar.*, COUNT(pendaftaran.ID_KAMAR) AS jumlah FROM kamar LEFT JOIN pendaftaran ON kamar.ID_KAMAR = pendaftaran.ID_KAMAR GROUP BY kamar.ID_KAMAR;
+    $kamar = DBC->prepare("SELECT kamar.*, COUNT(pendaftaran.ID_KAMAR) AS jumlah FROM kamar LEFT JOIN pendaftaran ON kamar.ID_KAMAR = pendaftaran.ID_KAMAR WHERE kamar.KAPASITAS > 0 GROUP BY kamar.ID_KAMAR;
     "); 
     $kamar->execute();
     return $kamar->fetchAll();
@@ -108,11 +116,24 @@ function tambahJurusan($array){
     }
 }
 
+// Edit jurusan
+function editJurusan($array){
+    $update = DBC->prepare("UPDATE jurusan SET NAMA_JURUSAN = :nama, DETAIL_JURUSAN = :detail WHERE ID_JURUSAN = :id");
+    $update->execute([
+        ':nama' => $array['jurusan'],
+        ':detail'=>$array['dtl'],
+        ':id' => $array['id']
+    ]);
+    header("Location:index.php?page=jurusan");
+    exit;
+}
+
 function getJurusanName(){
     $jurusan = DBC->prepare("SELECT * FROM jurusan WHERE ID_JURUSAN = :id");
     $jurusan->execute([':id' =>$_GET['id']]);
     return $jurusan->fetch();
 }
+
 
 // Hapus Jurusan
 function hapusJurusan(){
@@ -139,11 +160,56 @@ function getSiswaJurusan(){
 // Update Profile Admin
 function updateProfileAdmin($array){
     // Cek username
-    $cek = cek_username($array['username']);
-    $update = 
+    $errors = [];
+    $rePass = "/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$/";
+    $reNama = "/^[a-zA-Z]*$/";
+    validasi_jumlah($errors,$array,'pass',8,"Password minimal berjumlah 8 karakter");
+    validate($errors,$array,'nama',$reNama,"Nama Hanya Mengandung Alfabet","Nama");
+    validate($errors,$array,'pass',$rePass,"Password Kombinasi huruf dan angka","Password");
+    if(!$errors){
+        $update = DBC->prepare("UPDATE users SET NAMA = :nama, PASSWORD = :pass WHERE username = :username");
+        $update->execute([
+            ':nama' => $array['nama'],
+            ':pass' => md5($array['pass']),
+            ':username' => $_SESSION['username']
+        ]);
+
+        if($update->rowCount()>0){
+            $_SESSION['nama']     = $array['nama'];
+            $_SESSION['msg_sc'] = 'Data Berhasil Diupdate!';
+        }else{
+            $_SESSION['msg_err'] = 'Data Gagal Diupdate!';
+        }
+    }else{
+        $_SESSION['msg_err'] = $errors;
+    }
+    header("Location:index.php?page=profil");
+    exit;
 }
 
-// Cek username
-function cek_username($username){
-    
+// Logout
+function logout(){
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php");
+}
+
+function pendaftarTerima(){
+    $terima = DBC->prepare("SELECT COUNT(USERNAME) AS jumlah FROM pendaftaran WHERE STATUS_DAFTAR = 1");
+    $terima->execute();
+    $temp = $terima->fetch();
+    return $temp['jumlah'];
+}
+function pendaftarOnline(){
+    $online = DBC->prepare("SELECT COUNT(USERNAME) AS jumlah FROM users WHERE USERNAME != :admin");
+    $online->execute([':admin' => $_SESSION['username']]);
+    $temp = $online->fetch();
+    return $temp['jumlah'];
+}
+function jumlahJurusan(){
+    $online = DBC->prepare("SELECT COUNT(ID_JURUSAN) AS jumlah FROM jurusan");
+    $online->execute();
+    $temp = $online->fetch();
+    return $temp['jumlah'];
 }

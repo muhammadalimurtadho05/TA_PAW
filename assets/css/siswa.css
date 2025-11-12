@@ -32,9 +32,10 @@ body {
 }
 
 .logout {
-    color: #009688;
-    text-decoration: none;
+    color: #dc3545 !important;
     font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
 }
 
 .logout:hover {
@@ -64,10 +65,44 @@ body {
     transition: 0.3s;
 }
 
+.menu p{
+    color: red;
+    background-color: red;
+}
+
 .menu a:hover {
     color: #009688;
 }
 
+
+
+/* Tambahan styling untuk foto profil di navbar */
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user .nama-user {
+    font-weight: 600;
+    color: #004d40;
+    text-decoration: none;
+}
+
+.user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #cce5df;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user img:hover {
+    transform: scale(1.05);
+    border-color: #00796b;
+}
 
 
 
@@ -220,4 +255,59 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border: 4px solid #fff;
     background-color: #fafafa;
+}
+
+
+
+
+
+
+/* === Alert Notifikasi Global === */
+.alert-message {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-weight: 500;
+    text-align: center;
+    width: fit-content;
+    max-width: 90%;
+    animation: fadeOut 3s ease forwards;
+}
+
+.alert-message.sukses {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-message.info {
+    background: #cce5ff;
+    color: #004085;
+    border: 1px solid #b8daff;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }

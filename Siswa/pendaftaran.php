@@ -2,6 +2,10 @@
 
 
 session_start();
+require_once 'database.php';
+
+$username = $_SESSION['username'];
+$user = getUserByUsername($username);
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit;
@@ -69,15 +73,19 @@ if (isset($_POST['submit'])) {
         </div>
         <nav class="menu">
             <a href="index.php">Home</a>
-            <a href="#">Riwayat Pendaftaran</a>
+            <a href="riwayat.php">Riwayat Pendaftaran</a>
             <a href="pendaftaran.php" class="active">Pendaftaran</a>
             <a href="edit_profil.php" class="btn">Edit Profil</a>
+            <a href="logout.php" class="logout">Logout</a>
         </nav>
         <div class="user">
-            <a href="profil.php" class="nama-user">
-                <?= htmlspecialchars($_SESSION['nama'] ?? $_SESSION['username']) ?>
+            <a href="profil.php">
+                <?php if (!empty($user['FOTO_SISWA'])): ?>
+                    <img src="../assets/uploads/<?= ($user['FOTO_SISWA']); ?>" alt="Foto Profil">
+                <?php else: ?>
+                    <img src="../assets/default.jpg" alt="Foto Default">
+                <?php endif; ?>
             </a>
-            <a href="logout.php" class="logout">Logout</a>
         </div>
     </header>
 
