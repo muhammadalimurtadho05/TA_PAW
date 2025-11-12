@@ -1,4 +1,8 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $user = getDetailUser();
 // var_dump($user);
 if(isset($_GET['terima'])){
@@ -6,6 +10,9 @@ if(isset($_GET['terima'])){
     header("Location:index.php?page=detail&user=".$_GET['user']);
 }elseif(isset($_GET['tolak'])){
     tolakSiswa();
+    header("Location:index.php?page=detail&user=".$_GET['user']);
+}elseif(isset($_GET['pending'])){
+    pendingSiswa();
     header("Location:index.php?page=detail&user=".$_GET['user']);
 }
 ?>
@@ -90,5 +97,16 @@ if(isset($_GET['terima'])){
             <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&tolak">Tolak!</a>
             <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&terima">Terima!</a>
         </div>
+    <?php endif?>
+    <?php if($user['STATUS_DAFTAR'] == 1):?>
+        <div class="tombol-bawah">
+            <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&tolak">Tolak!</a>
+            <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&pending">Pending!</a>
+        </div>
+        <?php else:?>
+            <div class="tombol-bawah">
+                <a class="dec" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&pending">Pending!</a>
+                <a class="acc" href="index.php?page=detail&user=<?= $user['USERNAME'] ?>&terima">Terima!</a>
+            </div>
     <?php endif?>
 </div>

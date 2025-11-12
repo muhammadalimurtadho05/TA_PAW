@@ -1,8 +1,12 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $siswa = getSiswaKamar();
 ?>
 
-<div class="page"><a href="index.php">Admin</a> / <a href="index.php?page=kamar">Kamar </a>/ <a href="">Siswa</a></div>
+<div class="page"><a href="index.php">Dashboard</a> / <a href="index.php?page=kamar">Kamar </a>/ <a href="">Siswa</a></div>
 <?php if(!$siswa):?>
     <h1>Tidak Ada Siswa Pada Kamar Ini</h1>
     <?php else:?>

@@ -1,4 +1,8 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 if ($_SERVER['REQUEST_METHOD']=='POST') {
     updateProfileAdmin($_POST);
 }

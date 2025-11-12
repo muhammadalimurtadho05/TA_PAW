@@ -1,7 +1,12 @@
 <?php
 session_start();
-
 require_once '../conn.php';
+if(!isset($_SESSION['role'])){
+    header('Location:'.BASE_URL);
+}elseif(isset($_SESSION['role']) && $_SESSION['role'] == 0){
+    header('Location:'.BASE_URL.'Siswa');
+}
+define('APP_SECURE', true);
 require_once BASE_PATH.'/Admin/Components/database.php';
 require_once BASE_PATH.'/Admin/Components/header.php';
 ?>
@@ -37,7 +42,7 @@ if(isset($_GET['page'])){
     
     
     else{
-        require_once 'page/not-found.php';
+        require_once 'page/404.php';
     }
 }else{
     include 'page/dashboard.php';

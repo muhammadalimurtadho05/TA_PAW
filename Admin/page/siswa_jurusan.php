@@ -1,9 +1,14 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $siswa = getSiswaJurusan();
 $jurusan = getJurusanName();
+
 ?>
 
-<div class="page"><a href="">Admin</a> / <a href="index.php?page=jurusan">Jurusan </a>/ Siswa</div>
+<div class="page"><a href="">Dashboard</a> / <a href="index.php?page=jurusan">Jurusan </a>/ Siswa</div>
 <?php if(!$siswa):?>
     <h1>Tidak Ada Siswa Pada Jurusan Ini</h1>
     <?php else:?>

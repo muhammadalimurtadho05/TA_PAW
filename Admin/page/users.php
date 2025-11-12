@@ -1,4 +1,8 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $users = getAllUsers();
 ?>
 <h1>Daftar Akun Terdaftar</h1>

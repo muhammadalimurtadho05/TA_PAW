@@ -1,4 +1,8 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $pendaftar = getAllPendaftar();
 ?>
 <h1>Pendaftar Online</h1>

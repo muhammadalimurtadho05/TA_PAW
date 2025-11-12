@@ -1,4 +1,8 @@
 <?php
+if(!defined('APP_SECURE')){
+    require_once 'error.php';
+    die();
+}
 $jurusan = getAllJurusan();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     tambahJurusan($_POST);
@@ -9,7 +13,7 @@ if(isset($_GET['hapus'])){
 ?>
 <div class="top">
     <div class="kiri">
-        <div class="page"><a href="index.php">Admin</a> / Jurusan</div>
+        <div class="page"><a href="index.php">Dashboard</a> / Jurusan</div>
         <h1>Daftar Jurusan</h1><br>
     </div>
     <?php if(isset($_SESSION['msg'])):?>

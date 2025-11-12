@@ -65,6 +65,12 @@ function tolakSiswa(){
         ':user'=>$_GET['user']
     ]);
 }
+function pendingSiswa(){
+    $tolak = DBC->prepare("UPDATE pendaftaran SET STATUS_DAFTAR = 0 WHERE USERNAME = :user");
+    $tolak->execute([
+        ':user'=>$_GET['user']
+    ]);
+}
 
 // Daftar Kamar
 function getAllKamar(){
@@ -172,4 +178,23 @@ function logout(){
     session_unset();
     session_destroy();
     header("Location: ../index.php");
+}
+
+function pendaftarTerima(){
+    $terima = DBC->prepare("SELECT COUNT(USERNAME) AS jumlah FROM pendaftaran WHERE STATUS_DAFTAR = 1");
+    $terima->execute();
+    $temp = $terima->fetch();
+    return $temp['jumlah'];
+}
+function pendaftarOnline(){
+    $online = DBC->prepare("SELECT COUNT(USERNAME) AS jumlah FROM users WHERE USERNAME != :admin");
+    $online->execute([':admin' => $_SESSION['username']]);
+    $temp = $online->fetch();
+    return $temp['jumlah'];
+}
+function jumlahJurusan(){
+    $online = DBC->prepare("SELECT COUNT(ID_JURUSAN) AS jumlah FROM jurusan");
+    $online->execute();
+    $temp = $online->fetch();
+    return $temp['jumlah'];
 }
