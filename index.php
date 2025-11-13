@@ -18,12 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <body>
     <div class="container">
         <div class="form-box">
-            <h2>Login Siswa</h2>
+            <h2>Login</h2>
             <p>Belum punya akun? <a href="register.php">Register</a></p>
 
             <form method="POST" action="" autocomplete="off">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="isi dengan NISN anda">
+                <input type="text" name="username" placeholder="masukkan username anda">
 
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Password">

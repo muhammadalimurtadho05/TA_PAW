@@ -1,6 +1,15 @@
 <?php
 session_start();
 require_once 'database.php';
+if (isset($_SESSION['pesan'])) {
+    $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
+    $teks = $_SESSION['pesan']['teks'] ?? '';
+
+    echo "<div class='alert-message {$tipe}'>{$teks}</div>";
+    unset($_SESSION['pesan']);
+}
+
+
 $db = constant("DBC");
 $username = $_SESSION['username'];
 $user = getUserByUsername($username);
@@ -8,6 +17,8 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit;
 }
+
+
 
 require_once '../conn.php';
 
@@ -17,7 +28,8 @@ $jurusan_query->execute();
 $jurusan_list = $jurusan_query->fetchAll();
 
 // Fungsi untuk mencari kamar dengan kapasitas tersedia
-function getAvailableKamar($db) {
+function getAvailableKamar($db)
+{
     $query = $db->query("
         SELECT k.ID_KAMAR, k.KAMAR, k.KAPASITAS, 
                COUNT(p.ID_DAFTAR) AS total_penghuni
@@ -31,7 +43,19 @@ function getAvailableKamar($db) {
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 
+// 🚫 Cek apakah user sudah pernah daftar
+$cek_daftar = $db->prepare("SELECT * FROM pendaftaran WHERE USERNAME = ?");
+$cek_daftar->execute([$username]);
+$sudah_daftar = $cek_daftar->fetch();
 
+if ($sudah_daftar) {
+    $_SESSION['pesan'] = [
+        'tipe' => 'sukses',
+        'teks' => 'Anda Sudah Mendaftar !'
+    ];
+    header("Location: ../Siswa/riwayat.php");
+    exit;
+}
 
 
 if (isset($_POST['submit'])) {
@@ -112,9 +136,12 @@ if (isset($_POST['submit'])) {
             }
         }
 
-        echo "<script>alert('Pendaftaran dan unggah 5 berkas PDF berhasil!'); window.location='index.php'</script>";
-    } else {
-        echo "<script>alert('Pendaftaran gagal disimpan.');</script>";
+        $_SESSION['pesan'] = [
+            'tipe' => 'sukses',
+            'teks' => '✅ selamat anda berhasil daftar !'
+        ];
+        header("Location: ../Siswa/index.php");
+        exit;
     }
 }
 ?>
@@ -127,6 +154,7 @@ if (isset($_POST['submit'])) {
     <title>Pendaftaran Siswa Baru</title>
     <link rel="stylesheet" href="../assets/css/daftar.css">
     <link rel="stylesheet" href="../assets/css/siswa.css">
+
 </head>
 
 <body>
@@ -188,7 +216,6 @@ if (isset($_POST['submit'])) {
 
             <label>No. Telp Orang Tua:</label>
             <input type="text" name="telp_ortu">
-<<<<<<< HEAD
 
             <label>Jurusan:</label>
             <select name="id_jurusan">
@@ -199,8 +226,7 @@ if (isset($_POST['submit'])) {
                     </option>
                 <?php endforeach; ?>
             </select>
-=======
->>>>>>> 893d4c9727b9c2175fa07a41a9b09782c4c644a1
+
 
             <h3>Unggah Berkas (PDF Saja)</h3>
             <label>1. Ijazah:</label>

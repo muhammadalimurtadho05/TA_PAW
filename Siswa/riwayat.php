@@ -1,5 +1,14 @@
 <?php
 session_start();
+require_once 'database.php';
+if (isset($_SESSION['pesan'])) {
+    $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
+    $teks = $_SESSION['pesan']['teks'] ?? '';
+
+    echo "<div class='alert-message {$tipe}'>{$teks}</div>";
+    unset($_SESSION['pesan']);
+}
+
 require_once '../conn.php';
 require_once 'database.php';
 
@@ -101,7 +110,7 @@ $user = getUserByUsername($username);
                             <?php if (!empty($data['FOTO_SISWA'])): ?>
                                 <img src="../assets/uploads/<?= ($data['FOTO_SISWA']); ?>" alt="Foto Profil">
                             <?php else: ?>
-                                <img src="../assets/default.jpg" alt="Foto Default">
+                                <img src="../assets/image/default.jpeg" alt="Foto Default">
                             <?php endif; ?>
                         </div>
 

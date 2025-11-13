@@ -4,7 +4,7 @@ require_once '../conn.php';
 
 $username = $_SESSION['username'];
 $nama = $_POST['nama'];
-$password = $_POST['password'];
+$password = md5($_POST['password']);
 
 $fotoBaru = $_FILES['foto']['name'];
 $fotoTmp  = $_FILES['foto']['tmp_name'];
@@ -63,8 +63,4 @@ header("Location: index.php");
 
 exit;
 
-exit;
-
-
-header("Location: index.php");
 

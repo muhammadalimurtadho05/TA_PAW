@@ -44,13 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <form method="POST" action="" autocomplete="off">
                 <label>Nama Lengkap</label>
-                <input type="text" name="nama" placeholder="Nama Lengkap" required>
+                <input type="text" name="nama" placeholder="Nama Lengkap" >
 
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Isi dengan NISN anda" required>
+                <input type="text" name="username" placeholder="isi username anda" >
 
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" >
 
                 <button type="submit">Register</button>
             </form>
