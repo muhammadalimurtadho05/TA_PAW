@@ -8,9 +8,10 @@
 </head>
 <body>
 <header>
-    <div class="logo">Admins | PPDB Online</div>
+    <div class="logo">Admin | PPDB Online</div>
     <div class="menu">
         <a href="index.php">Dashboard</a>
+        <a href="index.php?page=siswa">Siswa</a>
         <a href="index.php?page=pendaftar">Pendaftar</a>
         <a href="index.php?page=jurusan">Jurusan</a>
         <a href="index.php?page=kamar">Kamar</a>

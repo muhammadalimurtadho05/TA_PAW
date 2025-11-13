@@ -237,3 +237,9 @@ function jumlahJurusan(){
     $temp = $online->fetch();
     return $temp['jumlah'];
 }
+
+function getAllSiswa(){
+    $siswa = DBC->prepare("SELECT pendaftaran.*, users.NAMA, jurusan.NAMA_JURUSAN, kamar.KAMAR FROM pendaftaran JOIN users ON pendaftaran.USERNAME = users.USERNAME JOIN jurusan ON pendaftaran.ID_JURUSAN = jurusan.ID_JURUSAN JOIN kamar ON pendaftaran.ID_KAMAR = kamar.ID_KAMAR WHERE pendaftaran.STATUS_DAFTAR = 1");
+    $siswa->execute();
+    return $siswa->fetchAll();
+}

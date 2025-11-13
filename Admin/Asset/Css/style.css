@@ -316,20 +316,27 @@ a.prof{
 .icon{
     width: 75px;
 }
-
-.card{
-    background-color: white;
-    border: 2px solid #41A67E;
-    border-radius: 15px;
-    height: 150px;
+.in-card{
+    display: flex;
+    align-items: center;
     padding: 15px;
     display: flex;
     align-items: center;
     width: 100%;
     gap: 20px;
+    height: 100%;
+}
+.dashboard-atas > a{
+    text-decoration: none;
+}
+.card{
+    background-color: white;
+    border: 2px solid #41A67E;
+    border-radius: 15px;
+    height: 150px;
+    width: 100%;
     margin: 0 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
 }
 .dashboard-atas{
     gap: 10px;

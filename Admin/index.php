@@ -34,6 +34,8 @@ if(isset($_GET['page'])){
         require_once 'page/siswa_jurusan.php';
     }else if($page == 'profil'){
         require_once 'page/profile.php';
+    }else if($page == 'siswa'){
+        require_once 'page/siswa.php';
     }
     else if($page == 'logout'){
         logout();

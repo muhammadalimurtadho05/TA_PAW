@@ -5,6 +5,7 @@ if(!defined('APP_SECURE')){
 }
 $pendaftar = getAllPendaftar();
 ?>
+<div class="page"><a href="index.php">Dashboard</a> / Pendaftar</div>
 <h1>Pendaftar Online</h1>
 <table>
     <thead>
