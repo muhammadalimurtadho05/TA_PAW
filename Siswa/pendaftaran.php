@@ -49,10 +49,10 @@ if (isset($_POST['submit'])) {
 
         // ====== 2️⃣ Upload 5 berkas PDF ======
         $berkas_labels = [
-            'Ijazah', 
-            'Raport', 
-            'Kartu Keluarga', 
-            'Akte Lahir', 
+            'Ijazah',
+            'Raport',
+            'Kartu Keluarga',
+            'Akte Lahir',
             'KTP Orang Tua'
         ];
 
@@ -92,12 +92,14 @@ if (isset($_POST['submit'])) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Pendaftaran Siswa Baru</title>
     <link rel="stylesheet" href="../assets/css/daftar.css">
     <link rel="stylesheet" href="../assets/css/siswa.css">
 </head>
+
 <body>
     <header class="navbar">
         <div class="logo">
@@ -115,7 +117,7 @@ if (isset($_POST['submit'])) {
                 <?php if (!empty($user['FOTO_SISWA'])): ?>
                     <img src="../assets/uploads/<?= $user['FOTO_SISWA']; ?>" alt="Foto Profil">
                 <?php else: ?>
-                    <img src="../assets/default.jpg" alt="Foto Default">
+                    <img src="../assets/image/default.jpeg" alt="Foto Default">
                 <?php endif; ?>
             </a>
         </div>
@@ -126,56 +128,57 @@ if (isset($_POST['submit'])) {
         <form method="POST" enctype="multipart/form-data">
 
             <label>NISN:</label>
-            <input type="text" name="nisn" >
+            <input type="text" name="nisn">
 
             <label>Nama Ayah:</label>
-            <input type="text" name="nama_ayah" >
+            <input type="text" name="nama_ayah">
 
             <label>Nama Ibu:</label>
-            <input type="text" name="nama_ibu" >
+            <input type="text" name="nama_ibu">
 
             <label>Alamat:</label>
-            <textarea name="alamat" ></textarea>
+            <textarea name="alamat"></textarea>
 
             <label>Asal Sekolah:</label>
-            <input type="text" name="asal_sekolah" >
+            <input type="text" name="asal_sekolah">
 
             <label>Tempat Lahir:</label>
-            <input type="text" name="tempat_lahir" >
+            <input type="text" name="tempat_lahir">
 
             <label>Tanggal Lahir:</label>
-            <input type="date" name="tanggal_lahir" >
+            <input type="date" name="tanggal_lahir">
 
             <label>Jenis Kelamin:</label>
             <div class="radio-group">
-                <input type="radio" name="jenis_kelamin" value="L" > Laki-laki
-                <input type="radio" name="jenis_kelamin" value="P" > Perempuan
+                <input type="radio" name="jenis_kelamin" value="L"> Laki-laki
+                <input type="radio" name="jenis_kelamin" value="P"> Perempuan
             </div>
 
             <label>No. Telp:</label>
-            <input type="text" name="telp" >
+            <input type="text" name="telp">
 
             <label>No. Telp Orang Tua:</label>
-            <input type="text" name="telp_ortu" >
+            <input type="text" name="telp_ortu">
 
             <h3>Unggah Berkas (PDF Saja)</h3>
             <label>1. Ijazah:</label>
-            <input type="file" name="berkas1" accept="application/pdf" >
+            <input type="file" name="berkas1" accept="application/pdf">
 
             <label>2. Akte Kelahiran:</label>
-            <input type="file" name="berkas2" accept="application/pdf" >
+            <input type="file" name="berkas2" accept="application/pdf">
 
             <label>3. Kartu Keluarga:</label>
-            <input type="file" name="berkas3" accept="application/pdf" >
+            <input type="file" name="berkas3" accept="application/pdf">
 
             <label>4. Surat sehat:</label>
-            <input type="file" name="berkas4" accept="application/pdf" >
+            <input type="file" name="berkas4" accept="application/pdf">
 
             <label>5. Surat Pernyataan:</label>
-            <input type="file" name="berkas5" accept="application/pdf" >
+            <input type="file" name="berkas5" accept="application/pdf">
 
             <button type="submit" name="submit">Daftar & Upload</button>
         </form>
     </div>
 </body>
+
 </html>

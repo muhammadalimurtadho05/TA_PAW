@@ -36,7 +36,7 @@ $user = getUserByUsername($username);
         </div>
         <nav class="menu">
 
-            <a href="index.php">Home</a>
+
             <a href="index.php" class="active">Home</a>
             <a href="riwayat.php">Riwayat Pendaftaran</a>
             <a href="pendaftaran.php">Pendaftaran</a>
@@ -48,7 +48,7 @@ $user = getUserByUsername($username);
                 <?php if (!empty($user['FOTO_SISWA'])): ?>
                     <img src="../assets/uploads/<?= htmlspecialchars($user['FOTO_SISWA']); ?>" alt="Foto Profil">
                 <?php else: ?>
-                    <img src="../assets/default.jpg" alt="Foto Default">
+                    <img src="../assets/image/default.jpeg" alt="Foto Default">
                 <?php endif; ?>
             </a>
         </div>
