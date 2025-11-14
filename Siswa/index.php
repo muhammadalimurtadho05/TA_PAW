@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'database.php';
+require_once 'database.php';
 
 if (isset($_SESSION['pesan'])) {
     $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
@@ -32,7 +33,7 @@ $user = getUserByUsername($username);
 <body>
     <header class="navbar">
         <div class="logo">
-            <span><strong>PPDB</strong> Online <strong>Pesantren</strong></span>
+            <span><strong>PPDB</strong> Online <span>Madrasah Aliyah </span> <strong>Al Hikmah</strong></span>
         </div>
         <nav class="menu">
 
@@ -59,8 +60,8 @@ $user = getUserByUsername($username);
 
         <div class="hero-text">
             <h1>Selamat Datang<br>Di PPDB Online</h1>
-            <p class="sub">Pesantren</p>
-            <p>Akses dan cari tahu prosedur serta ketentuan informasi pendaftaran Pesantren.</p>
+            <p class="sub">Madrasah Aliyah <strong>Al Hikmah</strong></p>
+            <p class="hero-desc">Madrasah Aliyah Al Hikmah adalah sekolah berbasis Pondok Pesantren yang berlokasi di Telang, Kec. Kamal, Kab. Bangkalan, Madura. Kami berkomitmen mencetak generasi berakhlak, berilmu, dan berprestasi.</p>
             <a href="pendaftaran.php" class="btn">Mendaftar</a>
         </div>
         <div class="hero-img">
@@ -68,5 +69,7 @@ $user = getUserByUsername($username);
         </div>
     </section>
 </body>
+
+
 
 </html>

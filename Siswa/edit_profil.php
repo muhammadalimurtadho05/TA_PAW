@@ -22,7 +22,7 @@ $user = getUserByUsername($username);
 <body>
     <header class="navbar">
         <div class="logo">
-            <span><strong>PPDB</strong> Online <strong>Pesantren</strong></span>
+            <span><strong>PPDB</strong> Online <span>Madrasah Aliyah </span> <strong>Al Hikmah</strong></span>
         </div>
         <nav class="menu">
             <a href="index.php">Home</a>
