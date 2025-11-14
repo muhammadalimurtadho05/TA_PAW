@@ -10,7 +10,7 @@ if (isset($_SESSION['pesan'])) {
     unset($_SESSION['pesan']);
 }
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -52,9 +52,11 @@ $user = getUserByUsername($username);
                 <?php endif; ?>
             </a>
         </div>
+
     </header>
 
     <section class="hero">
+
         <div class="hero-text">
             <h1>Selamat Datang<br>Di PPDB Online</h1>
             <p class="sub">Pesantren</p>

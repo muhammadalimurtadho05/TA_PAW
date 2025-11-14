@@ -311,3 +311,11 @@ body {
         display: none;
     }
 }
+
+
+.edit {
+    color: white !important;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
+}

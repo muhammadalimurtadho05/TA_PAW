@@ -63,7 +63,7 @@ $user = getUserByUsername($username);
                 <label>Password</label>
                 <input type="password" name="password" readonly placeholder="*******">
                 <br></br>
-                <a href="edit_profil.php" class="btn">Edit Profil</a>
+                <button type="submit"> <a href="edit_profil.php" class="edit">Edit Profil</a></button>
             </div>
         </div>
     </div>
