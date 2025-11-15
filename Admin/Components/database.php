@@ -121,13 +121,23 @@ function getAllJurusan(){
 
 // Tambah Jurusan
 function tambahJurusan($array){
-    $jurusan = DBC->prepare("INSERT INTO jurusan VALUES (NULL, :nama, :detail)");
-    $jurusan->execute([':nama' => $array['jurusan'],':detail'=>$array['dtl']]);
-    if($jurusan->rowCount()>0){
-        $_SESSION['msg'] = 'Jurusan Berhasil Ditambah!';
-        header("Location:index.php?page=jurusan");
-        exit;        
+    $reNama = "/^[a-zA-Z\s]+$/";
+    $errors = [];
+    validate($errors,$array,'jurusan',$reNama,"Nama Jurusan Hanya Mengandung Alfabet","Jurusan");
+    validate($errors,$array,'dtl',$reNama,"Detail Jurusan Hanya Mengandung Alfabet","Detail Jurusan");
+    if(!$errors){
+        $jurusan = DBC->prepare("INSERT INTO jurusan VALUES (NULL, :nama, :detail)");
+        $jurusan->execute([':nama' => $array['jurusan'],':detail'=>$array['dtl']]);
+        if($jurusan->rowCount()>0){
+            $_SESSION['msg_sc'] = 'Jurusan Berhasil Ditambah';
+            header("Location:index.php?page=jurusan");
+            exit;        
+        }
+    }else{
+        $_SESSION['msg_err'] = $errors;
     }
+    header("Location:index.php?page=jurusan");
+    exit;
 }
 
 // Edit jurusan

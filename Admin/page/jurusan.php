@@ -20,12 +20,18 @@ if(isset($_GET['hapus'])){
         <h1>Daftar Jurusan</h1><br>
     </div>
     <div class="kanan">
-        <?php if(isset($_SESSION['msg'])):?>
-                <span class="success-alert"><?= $_SESSION['msg']?> </span>
-                <?php
-            unset($_SESSION['msg']);
-            ?>
-        <?php endif?>
+    <?php if(isset($_SESSION['msg_err'])):?>
+        <div class="kanan">
+        <?php
+        ?>
+        <?php foreach($_SESSION['msg_err'] as $err ):?>
+            <div class="danger-alert"><?=$err?></div>
+        <?php endforeach?>
+        </div>
+        <?php
+        unset($_SESSION['msg_err']);
+        ?>
+    <?php endif?>
         <?php if(isset($_GET['edit'])):?>
             <?php
             $dtl_jurusan = getJurusanName();

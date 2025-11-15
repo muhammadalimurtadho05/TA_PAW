@@ -37,7 +37,7 @@ $pendaftar = getAllPendaftar();
             <?php }?>
             </td>
             <td>
-                <a href="index.php?page=detail&user=<?= $user['USERNAME'] ?>" class="acc">Info</a>
+                <a href="index.php?page=detail&user=<?= $user['USERNAME'] ?>" class="lihat">Info</a>
             </td>
         </tr>
         <?php endforeach?>

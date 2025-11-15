@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
     $query->bindValue(':telp', $telp);
     $query->bindValue(':telp_ortu', $telp_ortu);
     $query->bindValue(':id_jurusan', $id_jurusan);
-    $query->bindValue(':id_kamar', $id_kamar);
+    $query->bindValue(':id_kamar', 1);
     $query->execute();
 
     if ($query->rowCount() > 0) {

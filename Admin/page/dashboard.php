@@ -10,7 +10,7 @@ $jurusan = jumlahJurusan();
 <h1>Dashboard</h1>
 <div class="dashboard">
     <div class="dashboard-bawah">
-        <h2 class="ttl">Selamat datang di Dashboard Admin PPDB!</h2>
+        <h2 class="ttl">Selamat datang di Dashboard Admin PPDB Madrasah Aliyah Al Hikmah</h2>
         <p class="ttl">Kelola data pendaftaran, verifikasi berkas, dan pantau proses seleksi peserta didik baru dengan mudah dan efisien. Pastikan seluruh informasi calon siswa tercatat dengan benar untuk kelancaran proses PPDB.</p>
     </div>
     <div class="dashboard-atas">
