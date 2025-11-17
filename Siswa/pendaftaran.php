@@ -124,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query->bindValue(':id_jurusan', $id_jurusan);
 
         // bind id_kamar dengan tipe NULL kalau null
-        if ($id_kamar === null) {
-            $query->bindValue(':id_kamar', null, PDO::PARAM_NULL);
-        } else {
-            $query->bindValue(':id_kamar', $id_kamar, PDO::PARAM_INT);
-        }
+        // if ($id_kamar === null) {
+        //     $query->bindValue(':id_kamar', null, PDO::PARAM_NULL);
+        // } else {
+        // }
+        $query->bindValue(':id_kamar', '1', PDO::PARAM_INT);
 
         $query->execute();
 

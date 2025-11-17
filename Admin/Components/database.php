@@ -197,19 +197,35 @@ function getKamarName($id){
 
 // Hapus Jurusan
 function hapusJurusan(){
-    $hapus = DBC->prepare("DELETE FROM jurusan WHERE ID_JURUSAN = :id");
-    $hapus->execute([':id' => $_GET['id']]);
-    if($hapus->rowCount()>0){
-        $_SESSION['msg_sc'] = 'Juruasan Berhasil Dihapus';
+    $cekJurusan = DBC->prepare('SELECT ID_DAFTAR FROM pendaftaran WHERE ID_JURUSAN = :id');
+    $cekJurusan->execute([':id'=>$_GET['id']]);
+    if($cekJurusan->rowCount()==0){
+        $hapus = DBC->prepare("DELETE FROM jurusan WHERE ID_JURUSAN = :id");
+        $hapus->execute([':id' => $_GET['id']]);
+        if($hapus->rowCount()>0){
+            $_SESSION['msg_sc'] = 'Jurusan Berhasil Dihapus';
+            header("Location:index.php?page=jurusan");
+            exit;
+        }
+    }else{
+        $_SESSION['msg_err'] = ['Jurusan Gagal Dihapus'];
         header("Location:index.php?page=jurusan");
         exit;
     }
 }
 function hapusKamar(){
-    $hapus = DBC->prepare("DELETE FROM KAMAR WHERE ID_KAMAR = :id");
-    $hapus->execute([':id' => $_GET['id_km']]);
-    if($hapus->rowCount()>0){
-        $_SESSION['msg_sc'] = 'Kamar Berhasil Dihapus!';
+    $cekKamar = DBC->prepare('SELECT ID_DAFTAR FROM pendaftaran WHERE ID_KAMAR = :id');
+    $cekKamar->execute([':id'=>$_GET['id_km']]);
+    if($cekKamar->rowCount()==0){
+        $hapus = DBC->prepare("DELETE FROM KAMAR WHERE ID_KAMAR = :id");
+        $hapus->execute([':id' => $_GET['id_km']]);
+        if($hapus->rowCount()>0){
+            $_SESSION['msg_sc'] = 'Kamar Berhasil Dihapus!';
+            header("Location:index.php?page=kamar");
+            exit;
+        }
+    }else{
+        $_SESSION['msg_err'] = ['Kamar Gagal Dihapus'];
         header("Location:index.php?page=kamar");
         exit;
     }
