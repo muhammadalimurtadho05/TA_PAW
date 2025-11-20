@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../validate.inc';
+require_once '../validate.php';
 require_once 'database.php';
 
 // *** Pastikan user login sebelum menggunakan $_SESSION['username']
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telp_ortu = $_POST['telp_ortu'] ?? "";
     $id_jurusan = $_POST['id_jurusan'] ?? "";
 
-    // Panggil fungsi validasi di validate.inc
+    // Panggil fungsi validasi di validate.php
     cekNISN($nisn, $errors);
     cekNama($nama_ayah, $errors, 'nama_ayah', 'Nama Ayah');
     cekNama($nama_ibu, $errors, 'nama_ibu', 'Nama Ibu');
@@ -89,16 +89,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cekTelepon($telp, $errors, 'telp', 'Nomor Telepon');
     cekTelepon($telp_ortu, $errors, 'telp_ortu', 'Nomor Telepon Orang Tua');
 
-  
 
+  // cek jurusan
     cekJurusan($id_jurusan, $errors);
 
-    // cek jurusan
-    cekPDF($_FILES['berkas1'] ?? ['error'=>4], $errors, 'berkas1', 'Ijazah');
-    cekPDF($_FILES['berkas2'] ?? ['error'=>4], $errors, 'berkas2', 'Akte Kelahiran');
-    cekPDF($_FILES['berkas3'] ?? ['error'=>4], $errors, 'berkas3', 'Kartu Keluarga');
-    cekPDF($_FILES['berkas4'] ?? ['error'=>4], $errors, 'berkas4', 'Surat Sehat');
-    cekPDF($_FILES['berkas5'] ?? ['error'=>4], $errors, 'berkas5', 'Surat Pernyataan');
+  
+    cekPDF($_FILES['berkas1'] ?? ['error' => 4], $errors, 'berkas1', 'Ijazah');
+    cekPDF($_FILES['berkas2'] ?? ['error' => 4], $errors, 'berkas2', 'Akte Kelahiran');
+    cekPDF($_FILES['berkas3'] ?? ['error' => 4], $errors, 'berkas3', 'Kartu Keluarga');
+    cekPDF($_FILES['berkas4'] ?? ['error' => 4], $errors, 'berkas4', 'Surat Sehat');
+    cekPDF($_FILES['berkas5'] ?? ['error' => 4], $errors, 'berkas5', 'Surat Pernyataan');
 
     if (empty($errors)) {
         // Tentukan kamar otomatis
@@ -124,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query->bindValue(':id_jurusan', $id_jurusan);
 
         // bind id_kamar dengan tipe NULL kalau null
-        // if ($id_kamar === null) {
-        //     $query->bindValue(':id_kamar', null, PDO::PARAM_NULL);
-        // } else {
-        // }
-        $query->bindValue(':id_kamar', '1', PDO::PARAM_INT);
+        if ($id_kamar === null) {
+            $query->bindValue(':id_kamar', null, PDO::PARAM_NULL);
+        } else {
+            $query->bindValue(':id_kamar', $id_kamar, PDO::PARAM_INT);
+        }
 
         $query->execute();
 
@@ -155,12 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $file_tmp = $_FILES[$input_name]['tmp_name'];
                     $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-                    if ($file_ext !== 'pdf') {
-                        // hapus data pendaftaran jika perlu (opsional)
-                        echo "<script>alert('Semua berkas harus dalam format PDF!');</script>";
-                        exit;
-                    }
-
                     $new_name = time() . '_' . preg_replace('/[^a-zA-Z0-9_\-]/', '_', $label) . '.pdf';
                     $target_path = $upload_dir . $new_name;
 
@@ -183,12 +177,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Pendaftaran Siswa Baru</title>
     <link rel="stylesheet" href="../assets/css/daftar.css">
     <link rel="stylesheet" href="../assets/css/siswa.css">
 </head>
+
 <body>
     <header class="navbar">
         <div class="logo">
@@ -242,8 +238,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label>Jenis Kelamin:</label>
             <div class="radio-group">
-                <input type="radio" name="jenis_kelamin" value="L" <?= $jenis_kelamin === 'L' ? 'checked' : '' ?>> Laki-laki
-                <input type="radio" name="jenis_kelamin" value="P" <?= $jenis_kelamin === 'P' ? 'checked' : '' ?>> Perempuan
+                <input type="radio" name="jenis_kelamin" value="L" <?= $jenis_kelamin === 'L' ? 'checked' : '' ?>>
+                Laki-laki
+                <input type="radio" name="jenis_kelamin" value="P" <?= $jenis_kelamin === 'P' ? 'checked' : '' ?>>
+                Perempuan
             </div>
             <span class="errors"><?= $errors['jenis_kelamin'] ?? "" ?></span>
 
@@ -291,4 +289,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>
