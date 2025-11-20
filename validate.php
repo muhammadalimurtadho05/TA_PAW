@@ -23,8 +23,6 @@ function cekNama($field, &$errors, $key, $label){
 function cekAlamat($field, &$errors){
     if (requiredCheck($field)) {
         $errors['alamat'] = 'Kolom Alamat wajib diisi';
-    } elseif (strlen($field) < 5) {
-        $errors['alamat'] = 'Alamat terlalu pendek';
     }
 }
 
@@ -73,17 +71,17 @@ function cekNamaDaftar($field, &$errors) {
 function cekUsernameDaftar($field, &$errors) {
     if (requiredCheck($field)) {
         $errors['username'] = 'Username wajib diisi';
-    } elseif (strlen($field) < 4) {
-        $errors['username'] = 'Username minimal 4 karakter';
-    }
+    } elseif (!preg_match('/^[a-zA-Z0-9]+$/',$field)){
+		$errors['username'] = 'Kolom username kombinasi alfabet dan numerik';
+	}
 }
 
 function cekPasswordDaftar($field, &$errors) {
     if (requiredCheck($field)) {
         $errors['password'] = 'Password wajib diisi';
-    } elseif (strlen($field) < 6) {
-        $errors['password'] = 'Password minimal 6 karakter';
-    }
+    } elseif (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',$field)){
+		$errors['password'] = 'Kolom password minimal 8 karakter';
+	}
 }
 
 
