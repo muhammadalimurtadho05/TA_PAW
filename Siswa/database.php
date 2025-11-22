@@ -6,7 +6,8 @@ require_once '../conn.php';
  */
 function getUserByUsername($username)
 {
-    $stmt = DBC->prepare("SELECT * FROM USERS WHERE USERNAME = :username");
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM USERS WHERE USERNAME = :username");
     $stmt->execute([':username' => $username]);
     return $stmt->fetch();
 }
@@ -16,7 +17,8 @@ function getUserByUsername($username)
  */
 function getPendaftaranByUser($username)
 {
-    $stmt = DBC->prepare("
+    global $pdo;
+    $stmt = $pdo->prepare("
         SELECT 
             U.NAMA, U.FOTO, U.USERNAME,
             P.ID_DAFTAR, P.NISN, P.ALAMAT, P.NAMA_AYAH, P.NAMA_IBU,
@@ -41,7 +43,8 @@ function getPendaftaranByUser($username)
  */
 function getBerkasByPendaftaran($id_daftar)
 {
-    $bq = DBC->prepare("SELECT NAMA_BERKAS, BERKAS FROM BERKAS_SISWA WHERE ID_DAFTAR = :id");
+    global $pdo;
+    $bq = $pdo->prepare("SELECT NAMA_BERKAS, BERKAS FROM BERKAS_SISWA WHERE ID_DAFTAR = :id");
     $bq->execute([':id' => $id_daftar]);
     return $bq->fetchAll();
 }

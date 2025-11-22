@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-$db = constant("DBC");
+$db = $pdo;
 $username = $_SESSION['username'];
 
 // ambil data user (fungsi getUserByUsername harus ada di 'database.php')
@@ -90,10 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cekTelepon($telp_ortu, $errors, 'telp_ortu', 'Nomor Telepon Orang Tua');
 
 
-  // cek jurusan
+    // cek jurusan
     cekJurusan($id_jurusan, $errors);
 
-  
+
     cekPDF($_FILES['berkas1'] ?? ['error' => 4], $errors, 'berkas1', 'Ijazah');
     cekPDF($_FILES['berkas2'] ?? ['error' => 4], $errors, 'berkas2', 'Akte Kelahiran');
     cekPDF($_FILES['berkas3'] ?? ['error' => 4], $errors, 'berkas3', 'Kartu Keluarga');
