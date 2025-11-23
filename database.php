@@ -49,7 +49,7 @@ function login()
 }
 function register($array)
 {
-    require_once 'validate.inc';
+    require_once 'validate.php';
 
     $errors = [];
 

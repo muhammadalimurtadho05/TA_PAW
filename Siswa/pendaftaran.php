@@ -85,11 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cekNISN($nisn, $errors);
     cekNama($nama_ayah, $errors, 'nama_ayah', 'Nama Ayah');
     cekNama($nama_ibu, $errors, 'nama_ibu', 'Nama Ibu');
-    cekAlamat($alamat, $errors);
+    cekNama($tempat_lahir, $errors, 'tempat_lahir', 'Tempat Lahir');
+    cekAlamat($alamat, $errors, 'alamat', 'alamat');
+    cekAlamat($asal_sekolah, $errors, 'asal sekolah', 'asal_sekolah');
     cekTelepon($telp, $errors, 'telp', 'Nomor Telepon');
     cekTelepon($telp_ortu, $errors, 'telp_ortu', 'Nomor Telepon Orang Tua');
 
-
+    cekTanggal($tanggal_lahir,$errors);
     // cek jurusan
     cekJurusan($id_jurusan, $errors);
 
@@ -229,12 +231,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label>Asal Sekolah:</label>
             <input type="text" name="asal_sekolah" value="<?= htmlspecialchars($asal_sekolah) ?>">
+            <span class="errors"><?= $errors['asal_sekolah'] ?? "" ?></span>
 
             <label>Tempat Lahir:</label>
             <input type="text" name="tempat_lahir" value="<?= htmlspecialchars($tempat_lahir) ?>">
+            <span class="errors"><?= $errors['tempat_lahir'] ?? "" ?></span>
 
             <label>Tanggal Lahir:</label>
             <input type="date" name="tanggal_lahir" value="<?= htmlspecialchars($tanggal_lahir) ?>">
+            <span class="errors"><?= $errors['tanggal_lahir'] ?? "" ?></span>
 
             <label>Jenis Kelamin:</label>
             <div class="radio-group">

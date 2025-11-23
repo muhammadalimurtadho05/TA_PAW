@@ -2,7 +2,7 @@
 session_start();
 require_once 'conn.php';
 require_once 'database.php';
-require_once 'validate.inc';
+require_once 'validate.php';
 
 // Jika form disubmit → proses register()
 $hasil  = [];
