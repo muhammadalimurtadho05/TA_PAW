@@ -20,9 +20,18 @@ function cekNama($field, &$errors, $key, $label){
     }
 }
 
-function cekAlamat($field, &$errors){
+function cekAlamat($field, &$errors, $label, $key){
     if (requiredCheck($field)) {
-        $errors['alamat'] = 'Kolom Alamat wajib diisi';
+        $errors[$key] = "Kolom $label wajib diisi";
+    }
+}
+
+function cekTanggal($field, &$errors){
+    $d = DateTime::createFromFormat('Y-m-d', $field);
+    if(requiredCheck($field)){
+        $errors['tanggal_lahir'] = "Wajib di isi";
+    }elseif(!($d && $d->format('Y-m-d') === $field)){
+        $errors['tanggal_lahir'] = "Tanggal tidak valid";
     }
 }
 
