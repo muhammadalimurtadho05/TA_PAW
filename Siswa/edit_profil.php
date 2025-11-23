@@ -1,10 +1,7 @@
 <?php
 session_start();
 require_once 'database.php';
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit;
-}
+
 require_once '../conn.php';
 
 $username = $_SESSION['username'];
@@ -12,7 +9,14 @@ $user = getUserByUsername($username);
 ?>
 <!DOCTYPE html>
 <html lang="id">
+<?php
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
 
+
+?>
 <head>
     <meta charset="UTF-8">
     <title>Edit Profil - PPDB Online</title>
