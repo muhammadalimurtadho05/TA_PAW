@@ -27,11 +27,9 @@ function cekAlamat($field, &$errors, $label, $key){
 }
 
 function cekTanggal($field, &$errors){
-    $d = DateTime::createFromFormat('Y-m-d', $field);
+    $d = DateTime::createFromFormat('m-d-Y', $field);
     if(requiredCheck($field)){
         $errors['tanggal_lahir'] = "Wajib di isi";
-    }elseif(!($d && $d->format('Y-m-d') === $field)){
-        $errors['tanggal_lahir'] = "Tanggal tidak valid";
     }
 }
 

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <h2>Login</h2>
             <p>Belum punya akun? <a href="register.php">Register</a></p>
 
-            <form method="POST" action="" autocomplete="off">
+            <form method="POST" autocomplete="off">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="masukkan username anda">
 

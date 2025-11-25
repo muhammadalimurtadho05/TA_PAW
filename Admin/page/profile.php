@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     </div>
     <h2><?= $_SESSION['nama'] ?></h2>
     <p style="color: rgb(93, 199, 187);"><?= $_SESSION['username'] ?></p>
-    <form action="" method="POST">
+    <form method="POST">
         <div class="profile-info">
             <div>
                 <strong>Username</strong>
