@@ -58,7 +58,7 @@ $user = getUserByUsername($username);
                 <div><span class="label">Username</span><span class="value"><?= htmlspecialchars($user['USERNAME']); ?></span></div>
                 <div><span class="label">Nama Lengkap</span><strong class="value"><?= htmlspecialchars($user['NAMA']); ?></strong></div>
                 <div><span class="label">password</span><strong class="value">*******</strong></div>
-                <button type="submit"> <a href="edit_profil.php" class="edit">Edit Profil</a></button>
+                 <a href="edit_profil.php" class="edit">Edit Profil</a>
             </div>
         </div>
     </div>
