@@ -11,67 +11,61 @@ function login()
 
     $username = $_POST['username'];
     $passwd   = md5($_POST['password']);
-    $role = $_POST['role'];
-    if($role == 'siswa'){
-        $user = $pdo->prepare("SELECT * FROM USERS WHERE USERNAME = :username AND PASSWORD = :pass");
-        $user->execute([
-            ':username' => $username,
-            ':pass'     => $passwd
-        ]);
-    
-        if ($user->rowCount() == 1) {
-            $data = $user->fetch();
-    
-            $_SESSION['username'] = $data['USERNAME'];
-            $_SESSION['nama']     = $data['NAMA'];
-    
-            $_SESSION['pesan'] = [
-                'tipe' => 'sukses',
-                'teks' => '✅ Selamat datang, ' . $data['NAMA'] . '!'
-            ];
-            header("Location: Siswa/index.php");
-            exit;
-        } else {
-            // ❌ Pesan error
-            $_SESSION['pesan'] = [
-                'tipe' => 'error',
-                'teks' => '❌ Username atau password salah!'
-            ];
-            header("Location: index.php");
-            exit;
-        }
-    }else{
-        $user = $pdo->prepare("SELECT * FROM ADMIN WHERE USERNAME_ADMIN = :username AND PASSWORD_ADMIN = :pass");
-        $user->execute([
-            ':username' => $username,
-            ':pass'     => $passwd
-        ]);
-        if ($user->rowCount() == 1) {
-            $data = $user->fetch();
-    
-            $_SESSION['username'] = $data['USERNAME_ADMIN'];
-            $_SESSION['nama']     = $data['NAMA_ADMIN'];
+
+    // ======= CEK ADMIN DULU =======
+    $cekAdmin = $pdo->prepare("SELECT * FROM ADMIN WHERE USERNAME_ADMIN = :username");
+    $cekAdmin->execute([':username' => $username]);
+
+    if ($cekAdmin->rowCount() == 1) {
+        $admin = $cekAdmin->fetch();
+
+        if ($admin['PASSWORD_ADMIN'] === $passwd) {
+            // LOGIN ADMIN
+            $_SESSION['username'] = $admin['USERNAME_ADMIN'];
+            $_SESSION['nama']     = $admin['NAMA_ADMIN'];
             $_SESSION['role']     = 'Admin';
-            
+
             $_SESSION['pesan'] = [
                 'tipe' => 'sukses',
-                'teks' => '✅ Selamat datang, ' . $data['NAMA_ADMIN'] . '!'
+                'teks' => '👨‍💼 Selamat datang, Admin ' . $admin['NAMA_ADMIN'] . '!'
             ];
-    
+
             header("Location: Admin/index.php");
-            exit;
-        } else {
-            // ❌ Pesan error
-            $_SESSION['pesan'] = [
-                'tipe' => 'error',
-                'teks' => '❌ Username atau password salah!'
-            ];
-            header("Location: index.php");
             exit;
         }
     }
-    
+
+    // ======= CEK SISWA JIKA BUKAN ADMIN =======
+    $cekUser = $pdo->prepare("SELECT * FROM USERS WHERE USERNAME = :username");
+    $cekUser->execute([':username' => $username]);
+
+    if ($cekUser->rowCount() == 1) {
+        $user = $cekUser->fetch();
+        if ($user['PASSWORD'] === $passwd) {
+
+            $_SESSION['username'] = $user['USERNAME'];
+            $_SESSION['nama']     = $user['NAMA'];
+            $_SESSION['role']     = 'Siswa';
+
+            $_SESSION['pesan'] = [
+                'tipe' => 'sukses',
+                'teks' => '🎉 Selamat datang, ' . $user['NAMA']
+            ];
+
+            header("Location: Siswa/index.php");
+            exit;
+        }
+    }
+
+    // ======= GAGAL LOGIN =======
+    $_SESSION['pesan'] = [
+        'tipe' => 'error',
+        'teks' => '❌ Username atau Password salah!'
+    ];
+    header("Location: index.php");
+    exit;
 }
+
 function register($array)
 {
     require_once 'validate.php';
@@ -101,11 +95,11 @@ function register($array)
             ]
         ];
     }
-global $pdo;
+    global $pdo;
     // Insert DB
     $register = $pdo->prepare("
-        INSERT INTO USERS (USERNAME, PASSWORD, NAMA, FOTO, ROLE)
-        VALUES (:username, md5(:pass), :nama, NULL, '0')
+        INSERT INTO USERS (USERNAME, PASSWORD, NAMA, FOTO)
+        VALUES (:username, md5(:pass), :nama, NULL)
     ");
 
     $register->execute([
@@ -127,7 +121,16 @@ global $pdo;
 function cekUsername($username)
 {
     global $pdo;
-    $cek = $pdo->prepare("SELECT USERNAME FROM USERS WHERE USERNAME = :user");
-    $cek->execute([':user' => $username]);
-    return $cek->rowCount();
+
+    // Cek di tabel ADMIN
+    $cekAdmin = $pdo->prepare("SELECT USERNAME_ADMIN FROM ADMIN WHERE USERNAME_ADMIN = :user");
+    $cekAdmin->execute([':user' => $username]);
+
+    // Cek di tabel USERS
+    $cekUser = $pdo->prepare("SELECT USERNAME FROM USERS WHERE USERNAME = :user");
+    $cekUser->execute([':user' => $username]);
+
+
+
+    return  $cekAdmin->rowCount() + $cekUser->rowCount();
 }

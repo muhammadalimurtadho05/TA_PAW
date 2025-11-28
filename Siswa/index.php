@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once 'database.php';
-require_once 'database.php';
 
 if (isset($_SESSION['pesan'])) {
     $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
