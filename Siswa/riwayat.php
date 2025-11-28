@@ -13,7 +13,7 @@ require_once '../conn.php';
 require_once 'database.php';
 
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
     exit;
 }
 $username = $_SESSION['username'];

@@ -38,7 +38,7 @@ if (isset($_SESSION['pesan'])) {
     <div class="container">
         <div class="form-box">
             <h2>Registrasi Siswa</h2>
-            <p>Sudah punya akun? <a href="login.php">Login</a></p>
+            <p>Sudah punya akun? <a href="index.php">Login</a></p>
 
             <form method="POST" action="" autocomplete="off">
                 <label>Nama Lengkap</label>

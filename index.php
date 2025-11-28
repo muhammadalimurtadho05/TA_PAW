@@ -1,11 +1,18 @@
 <?php
 session_start();
+
+if (isset($_SESSION['pesan'])) {
+    $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
+    $teks = $_SESSION['pesan']['teks'] ?? '';
+
+    echo "<div class='alert-message {$tipe}'>{$teks}</div>";
+    unset($_SESSION['pesan']);
+}
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     require_once 'database.php';
     login($_POST);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -27,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Password">
-                <select name="role" id="">
+                <label>Login Sebagai</label>
+                <select name="role" id="" class="select-login">
                     <option value="siswa">Calon Siswa</option>
                     <option value="admin">Admin</option>
                 </select>

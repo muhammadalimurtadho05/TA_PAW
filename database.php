@@ -37,7 +37,7 @@ function login()
                 'tipe' => 'error',
                 'teks' => '❌ Username atau password salah!'
             ];
-            header("Location: login.php");
+            header("Location: index.php");
             exit;
         }
     }else{
@@ -66,7 +66,7 @@ function login()
                 'tipe' => 'error',
                 'teks' => '❌ Username atau password salah!'
             ];
-            header("Location: login.php");
+            header("Location: index.php");
             exit;
         }
     }
@@ -119,7 +119,7 @@ global $pdo;
         'teks' => 'Registrasi berhasil! Silakan login.'
     ];
 
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 

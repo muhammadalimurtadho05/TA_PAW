@@ -5,7 +5,7 @@ require_once 'database.php';
 
 // *** Pastikan user login sebelum menggunakan $_SESSION['username']
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
     exit;
 }
 
