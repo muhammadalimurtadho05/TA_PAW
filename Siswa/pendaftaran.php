@@ -5,7 +5,7 @@ require_once 'database.php';
 
 // *** Pastikan user login sebelum menggunakan $_SESSION['username']
 if (!isset($_SESSION['username'])) {
-    header("Location: ../index.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -81,6 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telp_ortu = $_POST['telp_ortu'] ?? "";
     $id_jurusan = $_POST['id_jurusan'] ?? "";
 
+   
+
     // Panggil fungsi validasi di validate.php
     cekNISN($nisn, $errors);
     cekNama($nama_ayah, $errors, 'nama_ayah', 'Nama Ayah');
@@ -90,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cekAlamat($asal_sekolah, $errors, 'asal sekolah', 'asal_sekolah');
     cekTelepon($telp, $errors, 'telp', 'Nomor Telepon');
     cekTelepon($telp_ortu, $errors, 'telp_ortu', 'Nomor Telepon Orang Tua');
+    cekJenisKelamin($jenis_kelamin, $errors);
 
     cekTanggal($tanggal_lahir,$errors);
     // cek jurusan
