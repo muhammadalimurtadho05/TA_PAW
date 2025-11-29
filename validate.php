@@ -27,9 +27,12 @@ function cekAlamat($field, &$errors, $label, $key){
 }
 
 function cekTanggal($field, &$errors){
+    $today = date('Y-m-d');
     $d = DateTime::createFromFormat('m-d-Y', $field);
     if(requiredCheck($field)){
         $errors['tanggal_lahir'] = "Wajib di isi";
+    }elseif($field >$today ){
+        $errors['tanggal_lahir'] = "Tanggal lahir tidak boleh melebihi hari ini"; 
     }
 }
 
@@ -78,7 +81,7 @@ function cekNamaDaftar($field, &$errors) {
 function cekUsernameDaftar($field, &$errors) {
     if (requiredCheck($field)) {
         $errors['username'] = 'Username wajib diisi';
-    } elseif (!preg_match('/^[a-zA-Z0-9]+$/',$field)){
+    } elseif (!preg_match('/^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+$/',$field)){
 		$errors['username'] = 'Kolom username kombinasi alfabet dan numerik';
 	}
 }
@@ -86,10 +89,17 @@ function cekUsernameDaftar($field, &$errors) {
 function cekPasswordDaftar($field, &$errors) {
     if (requiredCheck($field)) {
         $errors['password'] = 'Password wajib diisi';
-    } elseif (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',$field)){
+    } elseif (!preg_match('/^[a-zA-Z0-9]{8,}+$/',$field)){
 		$errors['password'] = 'Kolom password minimal 8 karakter';
 	}
 }
 
+function cekJenisKelamin($field, &$errors) {
+    if (requiredCheck($field)) {
+        $errors['jenis_kelamin'] = 'Silakan pilih jenis kelamin';
+    } elseif (!in_array($field, ['L', 'P'])) {
+        $errors['jenis_kelamin'] = 'Pilihan jenis kelamin tidak valid';
+    }
+}
 
 ?>
