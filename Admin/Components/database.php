@@ -1,13 +1,8 @@
 <?php
 require_once BASE_PATH.'/Admin/Components/validate.php';
 
-function getAllUsers(){
-    global $pdo;
-    $users = $pdo->prepare("SELECT * FROM USERS WHERE ROLE = 0");
-    $users->execute();
-    return $users->fetchAll();
-}
 
+// Ambil Semua Data Pendaftar
 function getAllPendaftar(){
     global $pdo;
     $pendaftar = $pdo->prepare("
@@ -19,6 +14,7 @@ function getAllPendaftar(){
     return $pendaftar->fetchAll();
 }
 
+// Ambli data siswa secara spesifik berdasarkan ID
 function getDetailUser(){
     global $pdo;
     $user = $pdo->prepare("SELECT PENDAFTARAN.*, USERS.NAMA,USERS.FOTO, JURUSAN.*,KAMAR.KAMAR 
@@ -31,6 +27,7 @@ function getDetailUser(){
     return $user->fetch();
 }
 
+// Cek kamar yang kososng
 function cek_kamar(){
     global $pdo;
     $penghuni = $pdo->prepare("SELECT 
@@ -53,6 +50,7 @@ function cek_kamar(){
     }
 }
 
+// Update siswa menjadi diterima
 function terimaSiswa(){
     global $pdo;
     $kamar = cek_kamar();
@@ -69,6 +67,7 @@ function terimaSiswa(){
     exit;
 }
 
+// Update siswa menjadi ditolak
 function tolakSiswa(){
     global $pdo;
     $tolak = $pdo->prepare("UPDATE PENDAFTARAN SET STATUS_DAFTAR = 2,ID_KAMAR = 1 WHERE USERNAME = :user");
@@ -77,6 +76,7 @@ function tolakSiswa(){
     ]);
 }
 
+// Update siswa menjadi pending / menunggu
 function pendingSiswa(){
     global $pdo;
     $tolak = $pdo->prepare("UPDATE PENDAFTARAN SET STATUS_DAFTAR = 0 WHERE USERNAME = :user");
@@ -85,6 +85,7 @@ function pendingSiswa(){
     ]);
 }
 
+// Ambil semua daftar kamar dan jumlah siswa didalamnya
 function getAllKamar(){
     global $pdo;
     $kamar = $pdo->prepare("SELECT KAMAR.*, COUNT(PENDAFTARAN.ID_KAMAR) AS jumlah 
@@ -96,6 +97,7 @@ function getAllKamar(){
     return $kamar->fetchAll();
 }
 
+// Tambah Kamar Baru
 function tambahKamar($array){
     global $pdo;
     $errors = [];
@@ -114,6 +116,7 @@ function tambahKamar($array){
     return $errors;
 }
 
+// Ambil data siswa berdasarkan kamar tertentu
 function getSiswaKamar(){
     global $pdo;
     $kamar = $pdo->prepare("SELECT PENDAFTARAN.*, USERS.NAMA 
@@ -124,6 +127,7 @@ function getSiswaKamar(){
     return $kamar->fetchAll(); 
 }
 
+// Ambil daftar jurusan dan jumlah siswa didalamnya
 function getAllJurusan(){
     global $pdo;
     $jurusan = $pdo->prepare("SELECT JURUSAN.*, COUNT(PENDAFTARAN.ID_JURUSAN) AS jumlah 
@@ -135,6 +139,7 @@ function getAllJurusan(){
     return $jurusan->fetchAll();
 }
 
+// Tambah Jurusan Baru
 function tambahJurusan(&$errors,$array){
     global $pdo;
     validate($errors,$array,'jurusan',"/^[a-zA-Z\s]+$/","Nama Jurusan Hanya Mengandung Alfabet","Jurusan");
@@ -151,6 +156,7 @@ function tambahJurusan(&$errors,$array){
     return $errors;
 }
 
+// Edit Jurusan Yang sudah ada
 function editJurusan(&$errors,$array){
     global $pdo;
     validate($errors,$array,'jurusan',"/^[a-zA-Z\s]+$/","Nama Jurusan Hanya Mengandung Alfabet","Jurusan");
@@ -169,6 +175,7 @@ function editJurusan(&$errors,$array){
     return $errors;
 }
 
+// Edit kamar yang sudah ada
 function editKamar($array){
     global $pdo;
     $errors = [];
@@ -188,6 +195,7 @@ function editKamar($array){
     return $errors;
 }
 
+// Ambil jurusan tertentu
 function getJurusanName(){
     global $pdo;
     $jurusan = $pdo->prepare("SELECT * FROM JURUSAN WHERE ID_JURUSAN = :id");
@@ -195,6 +203,7 @@ function getJurusanName(){
     return $jurusan->fetch();
 }
 
+// Ambil kamar tertentu
 function getKamarName($id){
     global $pdo;
     $kamar = $pdo->prepare("SELECT * FROM KAMAR WHERE ID_KAMAR = :id");
@@ -202,6 +211,7 @@ function getKamarName($id){
     return $kamar->fetch();
 }
 
+// Hapus jurusan
 function hapusJurusan(){
     global $pdo;
     $cekJurusan = $pdo->prepare('SELECT ID_DAFTAR FROM PENDAFTARAN WHERE ID_JURUSAN = :id');
@@ -221,6 +231,7 @@ function hapusJurusan(){
     }
 }
 
+// hapus kamar
 function hapusKamar(){
     global $pdo;
     $cekKamar = $pdo->prepare('SELECT ID_DAFTAR FROM PENDAFTARAN WHERE ID_KAMAR = :id');
@@ -240,6 +251,7 @@ function hapusKamar(){
     }
 }
 
+// Ambil siswa berdasarkan jurusan tertentu
 function getSiswaJurusan(){
     global $pdo;
     $siswa = $pdo->prepare("SELECT PENDAFTARAN.*, USERS.NAMA,KAMAR.KAMAR 
@@ -256,6 +268,7 @@ function getSiswaJurusan(){
     }
 }
 
+// Update profil 
 function updateProfileAdmin($array){
     global $pdo;
     $errors = [];
@@ -297,6 +310,7 @@ function unsetErr(){
     }
 }
 
+// Logout
 function logout(){
     session_start();
     session_unset();
@@ -304,6 +318,7 @@ function logout(){
     header("Location: ../index.php");
 }
 
+// Ambil jumlah siswa yang diterima (Dashboard Admin)
 function pendaftarTerima(){
     global $pdo;
     $terima = $pdo->prepare("SELECT COUNT(USERNAME) AS jumlah FROM PENDAFTARAN WHERE STATUS_DAFTAR = 1");
@@ -311,6 +326,8 @@ function pendaftarTerima(){
     $temp = $terima->fetch();
     return $temp['jumlah'];
 }
+
+// Ambil jumlah siswa yang mendaftar(Dashboard Admin)
 function pendaftarOnline(){
     global $pdo;
     $online = $pdo->prepare("SELECT COUNT(USERNAME) AS jumlah FROM PENDAFTARAN");
@@ -318,6 +335,8 @@ function pendaftarOnline(){
     $temp = $online->fetch();
     return $temp['jumlah'];
 }
+
+// Ambil Jumlah jurusan tersedia
 function jumlahJurusan(){
     global $pdo;
     $online = $pdo->prepare("SELECT COUNT(ID_JURUSAN) AS jumlah FROM JURUSAN");
@@ -326,6 +345,7 @@ function jumlahJurusan(){
     return $temp['jumlah'];
 }
 
+// Ambil semua data siswa yang sudah diterima
 function getAllSiswa(){
     global $pdo;
     $siswa = $pdo->prepare("SELECT PENDAFTARAN.*, USERS.NAMA, JURUSAN.NAMA_JURUSAN, KAMAR.KAMAR 
@@ -338,6 +358,7 @@ function getAllSiswa(){
     return $siswa->fetchAll();
 }
 
+// Ambil berkas yang telah dikirim oleh calon siswa
 function getBerkasByPendaftaran($id_daftar)
 {
     global $pdo;

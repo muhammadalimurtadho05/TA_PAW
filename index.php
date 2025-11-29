@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+require_once 'database.php';
 if (isset($_SESSION['pesan'])) {
     $tipe = $_SESSION['pesan']['tipe'] ?? 'info';
     $teks = $_SESSION['pesan']['teks'] ?? '';
@@ -9,7 +8,6 @@ if (isset($_SESSION['pesan'])) {
     unset($_SESSION['pesan']);
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    require_once 'database.php';
     login($_POST);
 }
 ?>

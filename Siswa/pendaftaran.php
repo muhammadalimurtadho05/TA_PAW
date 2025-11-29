@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/siswa.css">
 </head>
 
-<body>
+<body lang="id">
     <header class="navbar">
         <div class="logo">
             <span><strong>PPDB</strong> Online <span>Madrasah Aliyah </span> <strong>Al Hikmah</strong></span>
